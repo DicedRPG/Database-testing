@@ -301,6 +301,7 @@ handleAdminLogin() {
         `;
         
         // Add each quest item
+        // <h4>${quest.questName} ${quest.stageId ? `<span class="stage-badge">Stage ${quest.stageId}</span>` : ''}</h4>
         quests.forEach(quest => {
             const hasCompleted = completedQuestIds.includes(quest.id);
             const typeColor = QUEST_TYPE_COLORS[quest.type] || '#888888';
@@ -309,7 +310,7 @@ handleAdminLogin() {
                 <div class="quest-item ${hasCompleted ? 'completed' : ''}" data-quest-id="${quest.id}">
                     <div class="quest-type-banner" style="background-color: ${typeColor};"></div>
                     <div class="quest-content">
-                        <h4>${quest.questName} ${quest.stageId ? `<span class="stage-badge">Stage ${quest.stageId}</span>` : ''}</h4>
+                        <h4>${quest.questName}</h4>
                         <p>${quest.description}</p>
                         <div class="quest-details">
                             <span>${quest.primaryFocus}: ${quest.primaryHours}h</span>
