@@ -687,6 +687,645 @@ class AppController {
         // Update the hours
         await userStateService.updateState(`attributeHours.${attribute}`, newHoursNum);
     }
+
+// 1. Add filter functionality
+async setupFilterButtons() {
+    console.log('Setting up filter buttons...');
+    
+    const filterContainer = document.getElementById('quest-filters');
+    if (!filterContainer) return;
+    
+    // Clear previous filters
+    filterContainer.innerHTML = '';
+    
+    // Add 'All' filter
+    const allButton = document.createElement('button');
+    allButton.className = `filter-button active`;
+    allButton.textContent = 'All Quests';
+    allButton.addEventListener('click', () => this.setFilter('all'));
+    filterContainer.appendChild(allButton);
+    
+    // Add type-specific filters
+    const questTypes = await questDatabase.getQuestTypes();
+    questTypes.forEach(type => {
+        const button = document.createElement('button');
+        button.className = 'filter-button';
+        button.setAttribute('data-type', type);
+        button.textContent = type;
+        button.addEventListener('click', () => this.setFilter(type));
+        filterContainer.appendChild(button);
+    });
+    
+    // Get unlocked stages
+    const unlockedStages = await userStateService.getUnlockedStages();
+    
+    // Add stage filters
+    const stages = await questDatabase.getStages();
+    stages.forEach(stage => {
+        const button = document.createElement('button');
+        const isUnlocked = unlockedStages.includes(stage.id);
+        
+        button.className = `filter-button stage-filter ${!isUnlocked ? 'disabled' : ''}`;
+        button.setAttribute('data-stage', stage.id);
+        button.textContent = stage.name;
+        
+        if (isUnlocked) {
+            button.addEventListener('click', () => this.setFilter(`stage-${stage.id}`));
+        } else {
+            button.title = `Complete Stage ${stage.id - 1} milestone quest to unlock`;
+        }
+        
+        filterContainer.appendChild(button);
+    });
+}
+
+// 2. Add filter setting functionality
+async setFilter(filter) {
+    console.log(`Setting filter to: ${filter}`);
+    
+    // Store current filter
+    this.currentFilter = filter;
+    
+    // Update button styles
+    document.querySelectorAll('.filter-button').forEach(button => {
+        button.classList.remove('active');
+        
+        // For stage filters
+        if (filter.startsWith('stage-') && button.classList.contains('stage-filter')) {
+            const stageId = parseInt(filter.replace('stage-', ''));
+            if (button.getAttribute('data-stage') == stageId) {
+                button.classList.add('active');
+            }
+        } else if (!filter.startsWith('stage-')) {
+            // For regular type filters
+            if (button.textContent === (filter === 'all' ? 'All Quests' : filter)) {
+                button.classList.add('active');
+            }
+        }
+    });
+    
+    // Refresh quest list with the new filter
+    await this.updateQuestList(this.getFilterCriteria(filter));
+}
+
+// Helper method to convert filter string to criteria object
+getFilterCriteria(filter) {
+    if (filter === 'all') {
+        return {};
+    } else if (filter.startsWith('stage-')) {
+        return { stage: parseInt(filter.replace('stage-', '')) };
+    } else {
+        return { type: filter };
+    }
+}
+
+// 3. Add random quest functionality
+async handleRandomQuest() {
+    console.log('Selecting a random quest...');
+    
+    // Get filtered quests based on current filter
+    const filteredQuests = await this.getFilteredQuests();
+    
+    if (filteredQuests.length === 0) {
+        this.showNotification('No quests available with current filter', 'warning');
+        return;
+    }
+    
+    // Select a random quest
+    const randomIndex = Math.floor(Math.random() * filteredQuests.length);
+    const randomQuest = filteredQuests[randomIndex];
+    
+    // Navigate to the quest detail page
+    router.navigate('quest', { id: randomQuest.id });
+}
+
+// Helper to get filtered quests
+async getFilteredQuests() {
+    // Get all quests
+    let quests = await questDatabase.getAllQuests();
+    
+    // Get visible quests
+    const state = await userStateService.getState();
+    const visibleQuestIds = state.visibleQuests || [];
+    
+    // Filter to only visible quests
+    quests = quests.filter(quest => visibleQuestIds.includes(quest.id));
+    
+    // Apply current filter if any
+    if (this.currentFilter && this.currentFilter !== 'all') {
+        if (this.currentFilter.startsWith('stage-')) {
+            const stageId = parseInt(this.currentFilter.replace('stage-', ''));
+            quests = quests.filter(q => q.stageId === stageId);
+        } else {
+            quests = quests.filter(q => q.type === this.currentFilter);
+        }
+    }
+    
+    return quests;
+}
+
+// 4. Enhanced start quest functionality
+async handleStartQuest(quest) {
+    console.log(`Starting quest: ${quest.id}`);
+    
+    // Store current quest ID in the state
+    await userStateService.updateState('currentActiveQuest', quest.id);
+    
+    // If quest requires dice, handle that first
+    if (quest.diceRequired) {
+        const diceResult = this.rollDiceForQuest(quest);
+        
+        // Store dice result in state
+        const state = await userStateService.getState();
+        const questRolls = state.questRolls || {};
+        questRolls[quest.id] = diceResult;
+        await userStateService.updateState('questRolls', questRolls);
+        
+        this.showNotification(`Dice rolled for ${quest.questName}!`, 'success');
+    }
+    
+    // Show cooking mode
+    this.showCookingMode(quest);
+}
+
+// 5. Roll dice for a quest
+rollDiceForQuest(quest) {
+    // Simple implementation - can be enhanced later
+    const diceResult = {
+        difficulty: ['Easy', 'Medium', 'Hard'][Math.floor(Math.random() * 3)],
+        timePressure: ['Relaxed', 'Normal', 'Rushed'][Math.floor(Math.random() * 3)],
+        surprise: ['None', 'Minor Twist', 'Major Twist'][Math.floor(Math.random() * 3)]
+    };
+    
+    console.log('Dice roll result:', diceResult);
+    return diceResult;
+}
+
+// 6. Show cooking mode
+async showCookingMode(quest) {
+    console.log(`Showing cooking mode for quest: ${quest.id}`);
+    
+    // Get container
+    const questDetailContainer = document.getElementById('quest-detail-container');
+    if (!questDetailContainer) return;
+    
+    // Get dice roll results if applicable
+    const state = await userStateService.getState();
+    const rolls = state.questRolls && state.questRolls[quest.id] || {};
+    
+    // Prepare cooking steps
+    let steps = [];
+    
+    // Use the contentSections from enhanced quest data if available
+    if (quest.contentSections && quest.contentSections.length > 0) {
+        // Transform content sections into cooking steps
+        steps = quest.contentSections.map(section => {
+            return {
+                title: section.title,
+                instructions: section.subsections.map(subsection => 
+                    `${subsection.subtitle}: ${subsection.content}`)
+            };
+        });
+    } else {
+        // Fallback to generic steps based on quest type
+        if (quest.type === 'Main') {
+            steps = [
+                { title: 'Preparation', instructions: ['Gather all ingredients', 'Prepare your workspace'] },
+                { title: 'Main Step', instructions: ['Follow the recipe guidelines'] },
+                { title: 'Completion', instructions: ['Plate your dish', 'Clean your workspace'] }
+            ];
+        } else if (quest.type === 'Side') {
+            steps = [
+                { title: 'Preparation', instructions: ['Gather all ingredients'] },
+                { title: 'Cooking', instructions: ['Follow the recipe guidelines'] }
+            ];
+        } else {
+            steps = [
+                { title: 'Preparation', instructions: ['Get ready for the training exercise'] },
+                { title: 'Practice', instructions: ['Practice the technique described'] }
+            ];
+        }
+    }
+    
+    // Show cooking mode UI
+    questDetailContainer.innerHTML = `
+        <div class="cooking-mode">
+            <div class="cooking-header">
+                <h2>${quest.questName}</h2>
+                <p>Follow these steps to complete your quest</p>
+            </div>
+            
+            ${Object.keys(rolls).length > 0 ? `
+                <div class="roll-results">
+                    <h3>Your Roll Results:</h3>
+                    <ul>
+                        ${Object.entries(rolls).map(([key, value]) => 
+                            `<li><strong>${key}:</strong> ${value}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+            
+            <div class="cooking-steps-container">
+                <div class="cooking-steps-nav">
+                    ${steps.map((step, index) => `
+                        <div class="step-nav-item ${index === 0 ? 'active' : ''}" data-step="${index}">
+                            <div class="step-number">${index + 1}</div>
+                            <div class="step-nav-title">${step.title}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="cooking-steps-content">
+                    ${steps.map((step, index) => `
+                        <div class="cooking-step" data-step="${index}" ${index > 0 ? 'style="display: none;"' : ''}>
+                            <h3>Step ${index + 1}: ${step.title}</h3>
+                            <div class="step-instructions">
+                                <ul>
+                                    ${step.instructions.map(instruction => 
+                                        `<li class="instruction-item">
+                                            <input type="checkbox" class="instruction-checkbox">
+                                            <span class="instruction-text">${instruction}</span>
+                                        </li>`
+                                    ).join('')}
+                                </ul>
+                            </div>
+                            
+                            ${index < steps.length - 1 ? `
+                                <button class="next-step-button quest-button primary">Next Step</button>
+                            ` : ''}
+                            
+                            ${index > 0 ? `
+                                <button class="prev-step-button quest-button secondary">Previous Step</button>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div class="cooking-actions">
+                <button id="back-to-details" class="quest-button secondary">Back to Details</button>
+                <button id="complete-quest" class="quest-button primary">Complete Quest</button>
+            </div>
+        </div>
+    `;
+    
+    // Add event listeners
+    document.getElementById('back-to-details').addEventListener('click', () => {
+        this.showQuestDetailPage(quest.id);
+    });
+    
+    document.getElementById('complete-quest').addEventListener('click', () => {
+        this.showCompletionScreen(quest);
+    });
+    
+    // Add navigation functionality
+    document.querySelectorAll('.next-step-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const currentStep = button.closest('.cooking-step');
+            const stepIndex = parseInt(currentStep.dataset.step);
+            const nextStep = document.querySelector(`.cooking-step[data-step="${stepIndex + 1}"]`);
+            
+            currentStep.style.display = 'none';
+            nextStep.style.display = 'block';
+            
+            // Update nav highlight
+            document.querySelectorAll('.step-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.step-nav-item[data-step="${stepIndex + 1}"]`).classList.add('active');
+        });
+    });
+    
+    document.querySelectorAll('.prev-step-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const currentStep = button.closest('.cooking-step');
+            const stepIndex = parseInt(currentStep.dataset.step);
+            const prevStep = document.querySelector(`.cooking-step[data-step="${stepIndex - 1}"]`);
+            
+            currentStep.style.display = 'none';
+            prevStep.style.display = 'block';
+            
+            // Update nav highlight
+            document.querySelectorAll('.step-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.step-nav-item[data-step="${stepIndex - 1}"]`).classList.add('active');
+        });
+    });
+    
+    // Make step nav items clickable
+    document.querySelectorAll('.step-nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const stepIndex = parseInt(item.dataset.step);
+            
+            // Hide all steps
+            document.querySelectorAll('.cooking-step').forEach(step => {
+                step.style.display = 'none';
+            });
+            
+            // Show selected step
+            document.querySelector(`.cooking-step[data-step="${stepIndex}"]`).style.display = 'block';
+            
+            // Update nav highlight
+            document.querySelectorAll('.step-nav-item').forEach(navItem => {
+                navItem.classList.remove('active');
+            });
+            item.classList.add('active');
+        });
+    });
+}
+
+// 7. Show completion screen
+async showCompletionScreen(quest) {
+    console.log(`Showing completion screen for quest: ${quest.id}`);
+    
+    // Get container
+    const questDetailContainer = document.getElementById('quest-detail-container');
+    if (!questDetailContainer) return;
+    
+    // Get completion checklist
+    const checklist = quest.completionChecklist || [];
+    
+    questDetailContainer.innerHTML = `
+        <div class="quest-completion">
+            <div class="completion-header">
+                <h2>Quest Complete: ${quest.questName}</h2>
+                <button id="back-to-cooking-mode" class="quest-button secondary back-button">
+                    ← Back
+                </button>
+            </div>
+            
+            <div class="completion-assessment">
+                <h3>How did it go?</h3>
+                
+                <div class="completion-options">
+                    <label class="completion-option">
+                        <input type="radio" name="completion-level" value="mastered" checked>
+                        <span>Mastered it! (100% reward)</span>
+                    </label>
+                    
+                    <label class="completion-option">
+                        <input type="radio" name="completion-level" value="wellDone">
+                        <span>Did well, need practice (80% reward)</span>
+                    </label>
+                    
+                    <label class="completion-option">
+                        <input type="radio" name="completion-level" value="struggled">
+                        <span>Struggled but completed (60% reward)</span>
+                    </label>
+                </div>
+            </div>
+            
+            ${checklist.length > 0 ? `
+                <div class="completion-checklist">
+                    <h3>Completion Checklist Review</h3>
+                    <p>Check off the items you completed:</p>
+                    <div class="checklist-review">
+                        ${checklist.map((item, index) => `
+                            <div class="checklist-review-item">
+                                <input type="checkbox" id="complete-check-${index}" class="checklist-checkbox">
+                                <label for="complete-check-${index}">${item}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
+            <div class="completion-notes">
+                <h3>Notes (optional):</h3>
+                <textarea id="completion-notes" placeholder="Add your reflections here..."></textarea>
+            </div>
+            
+            <div class="completion-actions">
+                <button id="cancel-completion" class="quest-button secondary">Cancel</button>
+                <button id="confirm-completion" class="quest-button primary">Confirm Completion</button>
+            </div>
+        </div>
+    `;
+    
+    // Add event listeners
+    document.getElementById('back-to-cooking-mode').addEventListener('click', () => {
+        this.showCookingMode(quest);
+    });
+    
+    document.getElementById('cancel-completion').addEventListener('click', () => {
+        this.showCookingMode(quest);
+    });
+    
+    document.getElementById('confirm-completion').addEventListener('click', () => {
+        const completionLevel = document.querySelector('input[name="completion-level"]:checked').value;
+        const notes = document.getElementById('completion-notes').value;
+        
+        // Gather checked items from checklist
+        const checkedItems = [];
+        document.querySelectorAll('.checklist-review-item input:checked').forEach(checkbox => {
+            const label = checkbox.nextElementSibling.textContent;
+            checkedItems.push(label);
+        });
+        
+        this.completeQuest(quest, completionLevel, notes, checkedItems);
+    });
+}
+
+// 8. Complete quest
+async completeQuest(quest, completionLevel = 'mastered', notes = '', checkedItems = []) {
+    console.log(`Completing quest ${quest.id} with level: ${completionLevel}`);
+    
+    // Calculate rewards based on completion level
+    let primaryMultiplier = 1.0;
+    let secondaryMultiplier = 1.0;
+    
+    if (completionLevel === 'wellDone') {
+        primaryMultiplier = 0.8;
+        secondaryMultiplier = 0.8;
+    } else if (completionLevel === 'struggled') {
+        primaryMultiplier = 0.6;
+        secondaryMultiplier = 0.6;
+    }
+    
+    const primaryHours = quest.primaryHours * primaryMultiplier;
+    const secondaryHours = quest.secondaryHours * secondaryMultiplier;
+    
+    // Add completion record
+    await userStateService.addCompletedQuest(quest.id, {
+        completionLevel,
+        notes,
+        checkedItems,
+        completedAt: new Date().toISOString()
+    });
+    
+    // Add attribute hours
+    const primaryAttr = quest.primaryFocus.toLowerCase();
+    const secondaryAttr = quest.secondaryFocus.toLowerCase();
+    
+    await userStateService.addAttributeHours(primaryAttr, primaryHours);
+    await userStateService.addAttributeHours(secondaryAttr, secondaryHours);
+    
+    // Check for milestone quests
+    if (quest.milestone === true && quest.unlocksStage) {
+        console.log(`Milestone quest completed, unlocking Stage ${quest.unlocksStage}`);
+        
+        // Find all quests from the next stage
+        const nextStageQuests = await questDatabase.getQuestsByStage(quest.unlocksStage);
+        
+        // Make sure we have quests for the next stage
+        if (nextStageQuests.length > 0) {
+            // Make next stage quests visible
+            const nextStageQuestIds = nextStageQuests.map(q => q.id);
+            await userStateService.makeQuestsVisible(nextStageQuestIds);
+            
+            // Show notification to user
+            if (quest.unlockMessage) {
+                this.showNotification(quest.unlockMessage, 'success');
+            }
+            
+            // Update filter buttons to reflect newly unlocked stages
+            await this.setupFilterButtons();
+        }
+    }
+    
+    // Unlock new quests (similar quests)
+    await this.unlockNewQuests(quest);
+    
+    // Show completion summary
+    this.showCompletionSummary(quest, primaryHours, secondaryHours);
+}
+
+// 9. Show completion summary
+async showCompletionSummary(quest, primaryHours, secondaryHours) {
+    console.log(`Showing completion summary for quest: ${quest.id}`);
+    
+    // Get container
+    const questDetailContainer = document.getElementById('quest-detail-container');
+    if (!questDetailContainer) return;
+    
+    // Show completion summary
+    questDetailContainer.innerHTML = `
+        <div class="quest-reflection">
+            <div class="reflection-header">
+                <h2>Quest Completed!</h2>
+                <button id="back-to-home-from-completion" class="quest-button secondary back-button">
+                    ← Back to Home
+                </button>
+            </div>
+            
+            <div class="quest-rewards">
+                <h3>Rewards Earned:</h3>
+                <p>${quest.primaryFocus}: +${primaryHours.toFixed(1)} hours</p>
+                <p>${quest.secondaryFocus}: +${secondaryHours.toFixed(1)} hours</p>
+            </div>
+            
+            <div class="reflection-actions">
+                <button id="view-more-quests" class="quest-button primary">View More Quests</button>
+            </div>
+        </div>
+    `;
+    
+    // Add event listeners
+    document.getElementById('back-to-home-from-completion').addEventListener('click', () => {
+        router.navigate('home');
+    });
+    
+    document.getElementById('view-more-quests').addEventListener('click', () => {
+        router.navigate('home');
+    });
+}
+
+// 10. Unlock new quests (similar quests)
+async unlockNewQuests(completedQuest) {
+    console.log(`Finding similar quests to unlock after ${completedQuest.id}`);
+    
+    // Get visible and completed quests
+    const visibleQuestIds = await userStateService.getVisibleQuests();
+    const completedQuestIds = (await userStateService.getCompletedQuests()).map(c => c.questId);
+    const allQuests = await questDatabase.getAllQuests();
+    
+    // Find similar quests (same type and focus)
+    let similarQuests = allQuests.filter(q => 
+        !visibleQuestIds.includes(q.id) && // Not already visible
+        !completedQuestIds.includes(q.id) && // Not already completed
+        q.type === completedQuest.type && // Same type
+        (q.primaryFocus === completedQuest.primaryFocus || 
+         q.secondaryFocus === completedQuest.primaryFocus) // Similar focus
+    );
+    
+    // If not enough similar quests, find more of the same type
+    if (similarQuests.length < 2) {
+        const sameTypeQuests = allQuests.filter(q => 
+            !visibleQuestIds.includes(q.id) && 
+            !completedQuestIds.includes(q.id) && 
+            q.type === completedQuest.type &&
+            !similarQuests.find(sq => sq.id === q.id)
+        );
+        
+        similarQuests = [...similarQuests, ...sameTypeQuests];
+    }
+    
+    // Sort by ID (proxy for difficulty)
+    similarQuests.sort((a, b) => a.id - b.id);
+    
+    // Take the first 2 quests to unlock
+    const questsToUnlock = similarQuests.slice(0, 2);
+    if (questsToUnlock.length > 0) {
+        const questIdsToUnlock = questsToUnlock.map(q => q.id);
+        await userStateService.makeQuestsVisible(questIdsToUnlock);
+        
+        // Show notification
+        if (questsToUnlock.length === 1) {
+            this.showNotification(`New quest unlocked: ${questsToUnlock[0].questName}`, 'success');
+        } else if (questsToUnlock.length > 1) {
+            this.showNotification(`${questsToUnlock.length} new quests unlocked!`, 'success');
+        }
+    }
+    
+    return questsToUnlock;
+}
+
+// 11. Show a notification
+showNotification(message, type = 'info') {
+    const notificationContainer = document.getElementById('notification-container');
+    if (!notificationContainer) return;
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    notificationContainer.appendChild(notification);
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+
+// 12. Update initializeUI method to include new event listeners
+initializeUI() {
+    console.log('Initializing UI components...');
+    
+    // Set up quest filter buttons
+    this.currentFilter = 'all';
+    this.setupFilterButtons();
+    
+    // Set up event listeners for add hours
+    document.getElementById('add-hours-button')?.addEventListener('click', 
+        () => this.handleAddHours());
+        
+    document.getElementById('adjust-hours-button')?.addEventListener('click', 
+        () => this.handleAdjustHours());
+    
+    // Set up random quest button
+    document.getElementById('random-quest')?.addEventListener('click', 
+        () => this.handleRandomQuest());
+    
+    // Initialize attribute displays
+    this.updateAttributeDisplays();
+    
+    // Subscribe to state changes to update UI
+    userStateService.subscribe(() => {
+        this.updateAttributeDisplays();
+    });
+}
 }
 
 // Create a singleton instance
