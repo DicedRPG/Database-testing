@@ -1484,8 +1484,7 @@ const QUEST_DATA = [
       "Remember that meal planning is iterative",
       "Create a 'meal idea bank' for inspiration"
     ]
-  }
-];
+  },
 {
                 "id": 45,
                 "questName": "Simple Breakfast Challenge",
