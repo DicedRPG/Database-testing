@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DICED: Cooking RPG Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#A2BC58">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>DICED: Cooking RPG Companion</h1>
+        </div>
+
+        <div class="overall-rank-card">
+            <div class="attribute-header">
+                <div class="attribute-icon-overall"></div>
+                <h3>Overall Rank</h3>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <p>Current Rank: <span id="overall-rank">Home Cook (Bronze)</span></p>
+                <p>Total Hours: <span id="overall-hours">0</span> / <span id="overall-next-rank">220</span> for next rank</p>
+            </div>
+        </div>
+
+        <div class="attributes-grid">
+            <div class="attribute-card">
+                <div class="attribute-header">
+                    <div class="attribute-icon"></div>
+                    <h3>Technique</h3>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 25%"></div>
+                </div>
+                <div class="stats">
+                    <p>Current Rank: Home Cook</p>
+                    <p>Hours: <span id="technique-hours">0</span> / <span id="technique-next-level">5</span> for Level <span id="technique-level">1</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <div class="attribute-header">
+                    <div class="attribute-icon"></div>
+                    <h3>Ingredients</h3>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 15%"></div>
+                </div>
+                <div class="stats">
+                    <p>Current Rank: Home Cook</p>
+                    <p>Hours: <span id="ingredients-hours">0</span> / <span id="ingredients-next-level">5</span> for Level <span id="ingredients-level">1</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <div class="attribute-header">
+                    <div class="attribute-icon"></div>
+                    <h3>Flavor</h3>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 35%"></div>
+                </div>
+                <div class="stats">
+                    <p>Current Rank: Home Cook</p>
+                    <p>Hours: <span id="flavor-hours">0</span> / <span id="flavor-next-level">5</span> for Level <span id="flavor-level">1</span></p>
+                </div>
+            </div>
+
+            <div class="attribute-card">
+                <div class="attribute-header">
+                    <div class="attribute-icon"></div>
+                    <h3>Management</h3>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 45%"></div>
+                </div>
+                <div class="stats">
+                    <p>Current Rank: Home Cook</p>
+                    <p>Hours: <span id="management-hours">0</span> / <span id="management-next-level">5</span> for Level <span id="management-level">1</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quest System -->
+        <div id="quest-system">
+            <div class="quest-card">
+                <div class="attribute-header">
+                    <div class="attribute-icon quest-emblem"></div>
+                    <h3>Quests</h3>
+                    <div class="button-group">
+                        <button id="view-all-quests" class="quest-button secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" class="button-svg-icon">
+                                <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/>
+                            </svg>
+                            View All
+                        </button>
+                        <button id="random-quest" class="quest-button primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" class="button-svg-icon">
+                                <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v14h14V5H5zm4.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-5 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                            </svg>
+                            Random Quest
+                        </button>
+                    </div>
+                </div>
+                <div id="quest-filters" class="filter-container"></div>
+                <div class="content">
+                    <div id="current-quest" class="hidden">
+                        <!-- Quest details will be populated here -->
+                    </div>
+                    <div id="quest-list" class="quest-grid">
+                        <!-- Quest list will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-hours-card">
+            <div class="attribute-header">
+                <div class="attribute-icon-else">+</div>
+                <h3>Add Practice Hours</h3>
+            </div>
+            <div class="input-section">
+                <select id="attribute-select">
+                    <option value="technique">Technique</option>
+                    <option value="ingredients">Ingredients</option>
+                    <option value="flavor">Flavor</option>
+                    <option value="management">Management</option>
+                </select>
+                <input type="number" id="hours-input" min="0.5" step="0.5" value="1">
+                <button id="add-hours-button">Add Hours</button>
+                <button id="adjust-hours-button">Adjust Total</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript includes -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
