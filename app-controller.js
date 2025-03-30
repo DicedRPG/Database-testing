@@ -162,48 +162,80 @@ class AppController {
     
     // Show settings page
     showSettingsPage() {
-        console.log('Showing settings page...');
+    console.log('Showing settings page...');
+    
+    // Get container elements
+    const settingsContainer = document.getElementById('settings-container');
+    
+    if (!settingsContainer) {
+        console.error('Settings container not found');
+        return;
+    }
+    
+    // Show settings container, hide other pages
+    this.showContainer('settings-container');
+    
+    // Render settings content
+    settingsContainer.innerHTML = `
+        <div class="settings-header">
+            <h2>Settings</h2>
+            <button id="back-from-settings" class="quest-button secondary">Back</button>
+        </div>
         
-        // Get container elements
-        const settingsContainer = document.getElementById('settings-container');
-        
-        if (!settingsContainer) {
-            console.error('Settings container not found');
-            return;
-        }
-        
-        // Show settings container, hide other pages
-        this.showContainer('settings-container');
-        
-        // Render settings content
-        settingsContainer.innerHTML = `
-            <div class="settings-header">
-                <h2>Settings</h2>
-                <button id="back-from-settings" class="quest-button secondary">Back</button>
+        <div class="settings-content">
+            <div class="settings-section">
+                <h3>User Data</h3>
+                <button id="reset-progress-button" class="quest-button secondary">Reset Progress</button>
+                <button id="export-data-button" class="quest-button primary">Export Data</button>
+                <button id="import-data-button" class="quest-button primary">Import Data</button>
             </div>
             
-            <div class="settings-content">
-                <div class="settings-section">
-                    <h3>User Data</h3>
-                    <button id="reset-progress-button" class="quest-button secondary">Reset Progress</button>
-                    <button id="export-data-button" class="quest-button primary">Export Data</button>
-                    <button id="import-data-button" class="quest-button primary">Import Data</button>
-                </div>
+            <!-- New Admin Section -->
+            <div class="settings-section">
+                <h3>Administration</h3>
+                <button id="admin-login-button" class="quest-button primary">Admin Dashboard</button>
+                <p class="settings-description">Access the quest management interface.</p>
             </div>
-        `;
-        
-        // Add event listeners
-        document.getElementById('back-from-settings')?.addEventListener('click', () => {
-            router.back();
-        });
-        
-        document.getElementById('reset-progress-button')?.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
-                userStateService.resetState();
-                alert('Progress has been reset.');
-                router.navigate('home');
-            }
-        });
+        </div>
+    `;
+    
+    // Add event listeners
+    document.getElementById('back-from-settings')?.addEventListener('click', () => {
+        router.back();
+    });
+    
+    document.getElementById('reset-progress-button')?.addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
+            userStateService.resetState();
+            alert('Progress has been reset.');
+            router.navigate('home');
+        }
+    });
+    
+    // Add admin login button event listener
+    document.getElementById('admin-login-button')?.addEventListener('click', () => {
+        this.handleAdminLogin();
+    });
+    
+    // Export/import functionality would be implemented here
+}
+
+// Add this method to handle admin login
+handleAdminLogin() {
+    // For a basic implementation, we'll simply redirect to the admin page
+    // In a real application, you would implement proper authentication here
+    window.location.href = 'admin.html';
+    
+    /* 
+    // Alternative: implement a simple password check
+    const password = prompt('Enter admin password:');
+    if (password === 'your-secure-password') { // Replace with a secure authentication method
+        window.location.href = 'admin.html';
+    } else {
+        alert('Incorrect password');
+    }
+    */
+});
         
         // Export/import functionality would be implemented here
     }
