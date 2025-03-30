@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DICED: Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="new-styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div id="admin-container" class="admin-container">
+        <header class="admin-header">
+            <h1>DICED: Quest Management</h1>
+            <div class="admin-nav">
+                <button id="nav-dashboard" class="admin-nav-button active">Dashboard</button>
+                <button id="nav-quest-manager" class="admin-nav-button">Quest Manager</button>
+                <button id="nav-back-to-app" class="admin-nav-button">Back to App</button>
+            </div>
+        </header>
+
+        <div id="admin-content">
+            <!-- Dashboard Panel -->
+            <div id="dashboard-panel" class="admin-panel active">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>Total Quests</h3>
+                        <div class="stat-value" id="total-quests">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Stages</h3>
+                        <div class="stat-value" id="total-stages">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Quest Types</h3>
+                        <div class="stat-value" id="total-types">0</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-actions">
+                    <div class="action-card">
+                        <h3>Quest Data</h3>
+                        <div class="action-buttons">
+                            <button id="export-all-quests" class="action-button">Export All Quests</button>
+                            <button id="import-quests" class="action-button">Import Quests</button>
+                            <input type="file" id="import-file" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>Quick Actions</h3>
+                        <div class="action-buttons">
+                            <button id="create-new-quest" class="action-button primary">Create New Quest</button>
+                            <button id="manage-quests" class="action-button">Manage Quests</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quest Manager Panel -->
+            <div id="quest-manager-panel" class="admin-panel">
+                <div class="quest-manager-header">
+                    <div class="search-bar">
+                        <input type="text" id="quest-search" placeholder="Search quests...">
+                        <button id="search-button">Search</button>
+                    </div>
+                    <div class="filter-controls">
+                        <select id="stage-filter">
+                            <option value="">All Stages</option>
+                            <!-- Stage options will be populated here -->
+                        </select>
+                        <select id="type-filter">
+                            <option value="">All Types</option>
+                            <!-- Type options will be populated here -->
+                        </select>
+                        <button id="reset-filters">Reset Filters</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="create-quest" class="action-button primary">Create New Quest</button>
+                        <button id="export-filtered" class="action-button">Export Filtered</button>
+                    </div>
+                </div>
+
+                <div class="quest-table-container">
+                    <table id="quest-table" class="quest-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Quest Name</th>
+                                <th>Type</th>
+                                <th>Stage</th>
+                                <th>Primary Focus</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quest-table-body">
+                            <!-- Quest rows will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="prev-page" class="pagination-button">Previous</button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" class="pagination-button">Next</button>
+                </div>
+            </div>
+
+            <!-- Quest Editor Panel -->
+            <div id="quest-editor-panel" class="admin-panel">
+                <div class="editor-header">
+                    <h2 id="editor-title">Create New Quest</h2>
+                    <button id="back-to-quests" class="action-button">Back to Quests</button>
+                </div>
+
+                <form id="quest-form" class="quest-form">
+                    <div class="form-grid">
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <h3>Basic Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="quest-id">Quest ID:</label>
+                                <input type="number" id="quest-id" name="id" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="quest-name">Quest Name:</label>
+                                <input type="text" id="quest-name" name="questName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="quest-description">Description:</label>
+                                <textarea id="quest-description" name="description" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="quest-rank">Rank:</label>
+                                <input type="text" id="quest-rank" name="rank" required value="Home Cook">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quest-stage">Stage ID:</label>
+                                    <input type="number" id="quest-stage" name="stageId" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="quest-stage-name">Stage Name:</label>
+                                    <input type="text" id="quest-stage-name" name="stageName" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quest Type and Focus -->
+                        <div class="form-section">
+                            <h3>Type and Focus</h3>
+                            
+                            <div class="form-group">
+                                <label for="quest-type">Type:</label>
+                                <select id="quest-type" name="type" required>
+                                    <option value="Training">Training</option>
+                                    <option value="Main">Main</option>
+                                    <option value="Side">Side</option>
+                                    <option value="Explore">Explore</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="primary-focus">Primary Focus:</label>
+                                    <select id="primary-focus" name="primaryFocus" required>
+                                        <option value="Technique">Technique</option>
+                                        <option value="Ingredients">Ingredients</option>
+                                        <option value="Flavor">Flavor</option>
+                                        <option value="Management">Management</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="primary-hours">Hours:</label>
+                                    <input type="number" id="primary-hours" name="primaryHours" step="0.5" min="0.5" required value="1">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="secondary-focus">Secondary Focus:</label>
+                                    <select id="secondary-focus" name="secondaryFocus" required>
+                                        <option value="Technique">Technique</option>
+                                        <option value="Ingredients">Ingredients</option>
+                                        <option value="Flavor">Flavor</option>
+                                        <option value="Management">Management</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="secondary-hours">Hours:</label>
+                                    <input type="number" id="secondary-hours" name="secondaryHours" step="0.5" min="0.5" required value="0.5">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <label for="dice-required">
+                                    <input type="checkbox" id="dice-required" name="diceRequired">
+                                    Dice Required
+                                </label>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <label for="is-milestone">
+                                    <input type="checkbox" id="is-milestone" name="milestone">
+                                    Milestone Quest
+                                </label>
+                            </div>
+                            
+                            <div class="form-group milestone-option">
+                                <label for="unlocks-stage">Unlocks Stage:</label>
+                                <input type="number" id="unlocks-stage" name="unlocksStage" min="2">
+                            </div>
+                            
+                            <div class="form-group milestone-option">
+                                <label for="unlock-message">Unlock Message:</label>
+                                <input type="text" id="unlock-message" name="unlockMessage">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Learning Objectives -->
+                    <div class="form-section">
+                        <h3>Learning Objectives</h3>
+                        <div id="learning-objectives-container" class="array-field-container">
+                            <div class="array-field-item">
+                                <input type="text" name="learningObjectives[]" class="array-field-input" placeholder="Enter a learning objective">
+                                <button type="button" class="remove-item">×</button>
+                            </div>
+                        </div>
+                        <button type="button" id="add-learning-objective" class="add-item-button">Add Learning Objective</button>
+                    </div>
+                    
+                    <!-- Equipment Needed -->
+                    <div class="form-section">
+                        <h3>Equipment Needed</h3>
+                        <div id="equipment-needed-container" class="array-field-container">
+                            <div class="array-field-item">
+                                <input type="text" name="equipmentNeeded[]" class="array-field-input" placeholder="Enter equipment item">
+                                <button type="button" class="remove-item">×</button>
+                            </div>
+                        </div>
+                        <button type="button" id="add-equipment" class="add-item-button">Add Equipment</button>
+                    </div>
+                    
+                    <!-- Content Sections -->
+                    <div class="form-section">
+                        <h3>Content Sections</h3>
+                        <div id="content-sections-container" class="complex-field-container">
+                            <!-- Template for a content section -->
+                            <div class="complex-field-item content-section-template">
+                                <div class="complex-field-header">
+                                    <h4>Section <span class="section-index">1</span></h4>
+                                    <button type="button" class="remove-section">Remove Section</button>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Section Title:</label>
+                                    <input type="text" name="contentSections[0].title" class="section-title" required>
+                                </div>
+                                
+                                <div class="subsections-container">
+                                    <h5>Subsections</h5>
+                                    <div class="subsection-item">
+                                        <div class="form-group">
+                                            <label>Subtitle:</label>
+                                            <input type="text" name="contentSections[0].subsections[0].subtitle" class="subsection-subtitle" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Content:</label>
+                                            <textarea name="contentSections[0].subsections[0].content" class="subsection-content" rows="3" required></textarea>
+                                        </div>
+                                        <button type="button" class="remove-subsection">Remove Subsection</button>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" class="add-subsection">Add Subsection</button>
+                            </div>
+                        </div>
+                        <button type="button" id="add-content-section" class="add-item-button">Add Content Section</button>
+                    </div>
+                    
+                    <!-- Practical Exercises -->
+                    <div class="form-section">
+                        <h3>Practical Exercises</h3>
+                        <div id="practical-exercises-container" class="complex-field-container">
+                            <!-- Template for a practical exercise -->
+                            <div class="complex-field-item exercise-template">
+                                <div class="complex-field-header">
+                                    <h4>Exercise <span class="exercise-index">1</span></h4>
+                                    <button type="button" class="remove-exercise">Remove Exercise</button>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Exercise Title:</label>
+                                    <input type="text" name="practicalExercises[0].title" class="exercise-title" required>
+                                </div>
+                                
+                                <div class="steps-container">
+                                    <h5>Steps</h5>
+                                    <div class="array-field-container">
+                                        <div class="array-field-item">
+                                            <input type="text" name="practicalExercises[0].steps[]" class="array-field-input" placeholder="Enter a step">
+                                            <button type="button" class="remove-item">×</button>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="add-step">Add Step</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-practical-exercise" class="add-item-button">Add Practical Exercise</button>
+                    </div>
+                    
+                    <!-- Completion Checklist -->
+                    <div class="form-section">
+                        <h3>Completion Checklist</h3>
+                        <div id="completion-checklist-container" class="array-field-container">
+                            <div class="array-field-item">
+                                <input type="text" name="completionChecklist[]" class="array-field-input" placeholder="Enter a checklist item">
+                                <button type="button" class="remove-item">×</button>
+                            </div>
+                        </div>
+                        <button type="button" id="add-checklist-item" class="add-item-button">Add Checklist Item</button>
+                    </div>
+                    
+                    <!-- Tips for Success -->
+                    <div class="form-section">
+                        <h3>Tips for Success</h3>
+                        <div id="tips-container" class="array-field-container">
+                            <div class="array-field-item">
+                                <input type="text" name="tipsForSuccess[]" class="array-field-input" placeholder="Enter a tip">
+                                <button type="button" class="remove-item">×</button>
+                            </div>
+                        </div>
+                        <button type="button" id="add-tip" class="add-item-button">Add Tip</button>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="cancel-quest-edit" class="action-button secondary">Cancel</button>
+                        <button type="button" id="save-as-template" class="action-button">Save as Template</button>
+                        <button type="submit" id="save-quest" class="action-button primary">Save Quest</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="import-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Import Quests</h2>
+                <button id="close-import-modal" class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select a JSON file containing quests to import:</p>
+                <input type="file" id="import-json-file" accept=".json">
+                <div class="import-options">
+                    <label>
+                        <input type="checkbox" id="skip-existing" checked>
+                        Skip existing quests (based on ID)
+                    </label>
+                    <label>
+                        <input type="checkbox" id="update-existing">
+                        Update existing quests
+                    </label>
+                </div>
+                <div id="import-preview" class="import-preview">
+                    <h3>Import Preview</h3>
+                    <div id="preview-content"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-import" class="action-button secondary">Cancel</button>
+                <button id="confirm-import" class="action-button primary" disabled>Import Quests</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- JavaScript includes -->
+    <script src="data.js"></script>
+    <script src="database-service.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
