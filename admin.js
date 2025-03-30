@@ -72,6 +72,12 @@ const AdminController = {
         document.getElementById('nav-back-to-app').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
+
+        document.getElementById('admin-logout').addEventListener('click', () => {
+            // Log out and redirect to main app
+            AdminAuth.logout();
+            window.location.href = 'index.html';
+        });
     },
 
     // Load quest data from the database
