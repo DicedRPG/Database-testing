@@ -392,3 +392,334 @@
         font-size: 11px;
     }
 }
+
+/* ===== Cooking Mode Styles ===== */
+.cooking-mode {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.cooking-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.cooking-header h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.roll-results {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.roll-results h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #4A2A1B;
+}
+
+.roll-results ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.roll-results li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.roll-results li:last-child {
+    border-bottom: none;
+}
+
+.cooking-steps-container {
+    display: flex;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.cooking-steps-nav {
+    background-color: #f8f9fa;
+    width: 30%;
+    min-width: 200px;
+    border-right: 1px solid #e9ecef;
+}
+
+.step-nav-item {
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.step-nav-item:last-child {
+    border-bottom: none;
+}
+
+.step-nav-item:hover {
+    background-color: #f1f3f5;
+}
+
+.step-nav-item.active {
+    background-color: #e9ecef;
+    font-weight: 600;
+}
+
+.step-number {
+    background-color: var(--primary-color);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.cooking-steps-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.cooking-step {
+    animation: fadeIn 0.3s ease;
+}
+
+.cooking-step h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #4A2A1B;
+}
+
+.step-instructions {
+    margin-bottom: 20px;
+}
+
+.step-instructions ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.instruction-item:last-child {
+    border-bottom: none;
+}
+
+.instruction-checkbox {
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.instruction-text {
+    line-height: 1.5;
+}
+
+.cooking-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+/* ===== Quest Completion Styles ===== */
+.quest-completion {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.completion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.completion-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.completion-assessment {
+    margin-bottom: 20px;
+}
+
+.completion-assessment h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #4A2A1B;
+}
+
+.completion-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.completion-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.completion-option:hover {
+    background-color: #f8f9fa;
+}
+
+.completion-checklist {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.completion-checklist h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #4A2A1B;
+}
+
+.checklist-review {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.completion-notes {
+    margin-bottom: 20px;
+}
+
+.completion-notes h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #4A2A1B;
+}
+
+.completion-notes textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    resize: vertical;
+}
+
+.completion-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+/* ===== Quest Reflection Styles ===== */
+.quest-reflection {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.reflection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.reflection-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.quest-rewards {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.quest-rewards h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #4A2A1B;
+}
+
+.quest-rewards p {
+    margin: 5px 0;
+}
+
+.reflection-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+    .cooking-steps-container {
+        flex-direction: column;
+    }
+    
+    .cooking-steps-nav {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        overflow-x: auto;
+    }
+    
+    .step-nav-item {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        border-bottom: none;
+        border-right: 1px solid #e9ecef;
+    }
+    
+    .step-nav-item:last-child {
+        border-right: none;
+    }
+}
