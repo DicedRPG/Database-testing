@@ -32,7 +32,7 @@ const AdminAuth = {
     authenticate(password) {
         // In a real application, you would verify this password against a secure backend
         // This is a simple example that uses a hardcoded password
-        const correctPassword = 'admin123'; // Change this to a secure password
+        const correctPassword = 'cooking2025'; // Change this to a secure password
         
         if (password === correctPassword) {
             // Create a session that expires in 24 hours
