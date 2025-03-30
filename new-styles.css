@@ -1,0 +1,394 @@
+/* new-styles.css */
+/* Additional styles for the enhanced multi-page application */
+
+/* ===== Page Container Styles ===== */
+.page-container {
+    display: block;
+    width: 100%;
+    transition: opacity 0.3s ease;
+}
+
+.page-container.hidden {
+    display: none;
+}
+
+/* ===== Navigation Styles ===== */
+.main-nav {
+    display: flex;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.nav-button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.nav-button:hover {
+    background-color: #e0e0e0;
+}
+
+.nav-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* ===== Quest Detail Page Styles ===== */
+/* Header */
+.quest-detail-header {
+    position: relative;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.quest-detail-type-banner {
+    height: 8px;
+    width: 100%;
+}
+
+.quest-detail-header-content {
+    padding: 20px;
+}
+
+.quest-detail-header h1 {
+    margin: 15px 0 10px 0;
+    color: #4A2A1B;
+}
+
+.quest-detail-meta {
+    margin-top: 5px;
+    color: #666;
+    font-size: 14px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Detail Layout */
+.quest-detail-body {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Sidebar */
+.quest-detail-sidebar {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+}
+
+.sidebar-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.sidebar-section h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+
+.sidebar-actions {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px;
+    text-align: center;
+}
+
+.sidebar-actions button {
+    width: 100%;
+}
+
+/* Main Content */
+.quest-detail-main {
+    flex: 3;
+    min-width: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Tabs */
+.quest-section-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #eee;
+}
+
+.section-tab {
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.section-tab:hover {
+    background-color: #f5f5f5;
+}
+
+.section-tab.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Tab Content */
+.quest-detail-tab-content {
+    padding: 20px;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Panel Content Styles */
+.objective-list li {
+    margin-bottom: 10px;
+}
+
+.content-section {
+    margin-bottom: 30px;
+}
+
+.content-section-title {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.content-subsection {
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 3px solid #f0f0f0;
+}
+
+.subsection-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.subsection-content {
+    line-height: 1.6;
+}
+
+/* Exercise Styles */
+.exercise {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.exercise-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.exercise-steps li {
+    margin-bottom: 10px;
+}
+
+/* Tips List */
+.tips-list li {
+    margin-bottom: 10px;
+}
+
+/* Checklist */
+.checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.checklist-checkbox {
+    margin-top: 3px;
+}
+
+/* ===== Settings Page Styles ===== */
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.settings-header h2 {
+    margin: 0;
+}
+
+.settings-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.settings-section {
+    margin-bottom: 30px;
+}
+
+.settings-section h3 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.settings-section button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* ===== Loading Spinner ===== */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    color: #666;
+    font-style: italic;
+}
+
+.loading-spinner::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== Notification System ===== */
+.notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.notification {
+    padding: 15px 20px;
+    background-color: var(--notification-bg);
+    color: var(--notification-text);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    margin-top: 10px;
+    animation: slideIn 0.3s ease-out;
+    max-width: 400px;
+}
+
+.notification.success {
+    background-color: #4CAF50;
+}
+
+.notification.warning {
+    background-color: #FF9800;
+}
+
+.notification.error {
+    background-color: #F44336;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ===== Responsive Styles ===== */
+@media (max-width: 992px) {
+    .quest-detail-body {
+        flex-direction: column;
+    }
+    
+    .quest-detail-sidebar {
+        max-width: none;
+    }
+    
+    .section-tab {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        margin-top: 10px;
+    }
+    
+    .quest-detail-header h1 {
+        font-size: 24px;
+    }
+    
+    .section-tab {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        font-size: 12px;
+    }
+    
+    .quest-detail-tab-content {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .quest-detail-header-content {
+        padding: 15px;
+    }
+    
+    .section-tab {
+        padding: 8px 4px;
+        font-size: 11px;
+    }
+}
