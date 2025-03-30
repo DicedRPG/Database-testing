@@ -235,7 +235,7 @@ handleAdminLogin() {
         alert('Incorrect password');
     }
     */
-});
+}
     
     // Helper to show a specific container and hide others
     showContainer(containerId) {
