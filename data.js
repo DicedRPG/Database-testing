@@ -1496,7 +1496,7 @@ const QUEST_DATA = [
     "secondaryHours": 1,
     "diceRequired": true,
     "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
-    "stageId": 4,
+    "stageId": 1,
     "stageName": "Basic Sides & Components",
     "learningObjectives": [
       "Master basic egg cookery techniques",
