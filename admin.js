@@ -105,6 +105,7 @@ const AdminController = {
     // Set up event listeners for actions
     setupEventListeners() {
         // Dashboard panel actions
+        document.getElementById('export-all-quests').addEventListener('click', () => this.exportQuestsForAmplify());
         document.getElementById('export-all-quests').addEventListener('click', () => this.exportQuests());
         document.getElementById('import-quests').addEventListener('click', () => this.showImportModal());
         document.getElementById('create-new-quest').addEventListener('click', () => this.showQuestEditor());
@@ -1214,14 +1215,6 @@ exportQuestsForAmplify: function() {
     console.error('Failed to export quests:', error);
     this.showNotification('Failed to export quests: ' + error.message, 'error');
   }
-},
-
-// Add this to your setupEventListeners method in AdminController
-setupEventListeners: function() {
-  // ... existing code ...
-  
-  // Add export for Amplify button
-  document.getElementById('export-all-quests').addEventListener('click', () => this.exportQuestsForAmplify());
 },
 
     // Show the import modal
