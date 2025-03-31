@@ -1,4 +1,35 @@
 // Generated on 2025-03-31T20:34:02.319Z
+// Constants - Quest Types Colors
+const QUEST_TYPE_COLORS = {
+    'Training': '#64D949', // Green
+    'Main': '#5F647C',     // Dark Gray
+    'Side': '#FE3E53',     // Red
+    'Explore': '#23D2E2'   // Blue
+};
+
+// Rank definitions
+const RANKS = [
+    { name: 'Home Cook', hoursNeeded: 55, totalHoursNeeded: 220, color: '#CD7F32' },  // Bronze
+    { name: 'Culinary Student', hoursNeeded: 209, totalHoursNeeded: 836, color: '#43464B' },  // Iron
+    { name: 'Kitchen Assistant', hoursNeeded: 530, totalHoursNeeded: 2120, color: '#C0C0C0' },  // Silver
+    { name: 'Line Cook', hoursNeeded: 1177, totalHoursNeeded: 4708, color: '#FFD700' },  // Gold
+    { name: 'Sous Chef', hoursNeeded: 2500, totalHoursNeeded: 10000, color: '#E5E4E2' },  // Platinum
+    { name: 'Head Chef', hoursNeeded: Infinity, totalHoursNeeded: Infinity, color: '#FF1493' }  // Master
+];
+
+// Level definitions (for Home Cook)
+const LEVELS = [
+    { level: 1, hours: 5, startAt: 0 },
+    { level: 2, hours: 5, startAt: 5 },
+    { level: 3, hours: 5, startAt: 10 },
+    { level: 4, hours: 5, startAt: 15 },
+    { level: 5, hours: 5, startAt: 20 },
+    { level: 6, hours: 6, startAt: 25 },
+    { level: 7, hours: 7, startAt: 31 },
+    { level: 8, hours: 8, startAt: 38 },
+    { level: 9, hours: 9, startAt: 46 }
+];
+
 // Total quests: 29
 const QUEST_DATA = [
   {
