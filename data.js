@@ -1,35 +1,4 @@
-// Generated on 2025-03-31T20:28:59.825Z
-// Constants - Quest Types Colors
-const QUEST_TYPE_COLORS = {
-  'Training': '#64D949', // Green
-  'Main': '#5F647C',     // Dark Gray
-  'Side': '#FE3E53',     // Red
-  'Explore': '#23D2E2'   // Blue
-};
-
-// Rank definitions
-const RANKS = [
-  { name: 'Home Cook', hoursNeeded: 55, totalHoursNeeded: 220, color: '#CD7F32' },  // Bronze
-  { name: 'Culinary Student', hoursNeeded: 209, totalHoursNeeded: 836, color: '#43464B' },  // Iron
-  { name: 'Kitchen Assistant', hoursNeeded: 530, totalHoursNeeded: 2120, color: '#C0C0C0' },  // Silver
-  { name: 'Line Cook', hoursNeeded: 1177, totalHoursNeeded: 4708, color: '#FFD700' },  // Gold
-  { name: 'Sous Chef', hoursNeeded: 2500, totalHoursNeeded: 10000, color: '#E5E4E2' },  // Platinum
-  { name: 'Head Chef', hoursNeeded: Infinity, totalHoursNeeded: Infinity, color: '#FF1493' }  // Master
-];
-
-// Level definitions (for Home Cook)
-const LEVELS = [
-  { level: 1, hours: 5, startAt: 0 },
-  { level: 2, hours: 5, startAt: 5 },
-  { level: 3, hours: 5, startAt: 10 },
-  { level: 4, hours: 5, startAt: 15 },
-  { level: 5, hours: 5, startAt: 20 },
-  { level: 6, hours: 6, startAt: 25 },
-  { level: 7, hours: 7, startAt: 31 },
-  { level: 8, hours: 8, startAt: 38 },
-  { level: 9, hours: 9, startAt: 46 }
-];
-
+// Generated on 2025-03-31T20:34:02.319Z
 // Total quests: 29
 const QUEST_DATA = [
   {
@@ -395,19 +364,16 @@ const QUEST_DATA = [
   {
     "id": 108,
     "questName": "Kitchen Equipment Research",
-    "rank": "Home Cook",
-    "type": "Explore",
-    "primaryFocus": "Management",
-    "secondaryFocus": "Technique",
-    "primaryHours": 1,
-    "secondaryHours": 0.5,
-    "diceRequired": false,
     "description": "Research and understand essential kitchen tools and equipment",
+    "rank": "Home Cook",
     "stageId": 1,
     "stageName": "Kitchen Fundamentals",
-    "milestone": true,
-    "unlocksStage": 2,
-    "unlockMessage": "Stage 2: Knife Skills & Heat Control is now available!",
+    "type": "Explore",
+    "primaryFocus": "Management",
+    "primaryHours": 1,
+    "secondaryFocus": "Technique",
+    "secondaryHours": 0.5,
+    "diceRequired": false,
     "learningObjectives": [
       "Understand the function and purpose of essential kitchen tools",
       "Learn to evaluate quality and value in kitchen equipment",
@@ -421,6 +387,20 @@ const QUEST_DATA = [
       "Current kitchen inventory list",
       "Budget planning worksheet (optional)",
       "Access to kitchen supply stores (physical or online)"
+    ],
+    "completionChecklist": [
+      "Completed kitchen tool inventory",
+      "Researched equipment quality and value",
+      "Created prioritized equipment acquisition list",
+      "Developed tool maintenance strategy",
+      "Identified gaps in current kitchen equipment"
+    ],
+    "tipsForSuccess": [
+      "Focus on versatile, multi-purpose tools when starting out",
+      "Quality matters more than quantity",
+      "Avoid professional-grade equipment when first starting",
+      "Start with basics and add specialized equipment as skills grow",
+      "Always research before making significant equipment investments"
     ],
     "contentSections": [
       {
@@ -439,29 +419,8 @@ const QUEST_DATA = [
     ],
     "practicalExercises": [
       {
-        "title": "Kitchen Equipment Inventory and Research",
-        "steps": [
-          "Create a comprehensive inventory of current kitchen tools",
-          "Research at least two options in different price ranges for key tools",
-          "Compare features, materials, and customer reviews",
-          "Develop a prioritized equipment acquisition plan",
-          "Create a maintenance strategy for existing and future tools"
-        ]
+        "title": "Kitchen Equipment Inventory and Research"
       }
-    ],
-    "completionChecklist": [
-      "Completed kitchen tool inventory",
-      "Researched equipment quality and value",
-      "Created prioritized equipment acquisition list",
-      "Developed tool maintenance strategy",
-      "Identified gaps in current kitchen equipment"
-    ],
-    "tipsForSuccess": [
-      "Focus on versatile, multi-purpose tools when starting out",
-      "Quality matters more than quantity",
-      "Avoid professional-grade equipment when first starting",
-      "Start with basics and add specialized equipment as skills grow",
-      "Always research before making significant equipment investments"
     ]
   },
   {
@@ -1469,16 +1428,19 @@ const QUEST_DATA = [
   {
     "id": 45,
     "questName": "Simple Breakfast Challenge",
-    "rank": "Home Cook",
-    "type": "Main",
-    "primaryFocus": "Technique",
-    "secondaryFocus": "Management",
-    "primaryHours": 1.5,
-    "secondaryHours": 1,
-    "diceRequired": true,
     "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
+    "rank": "Home Cook",
     "stageId": 1,
     "stageName": "Basic Sides & Components",
+    "type": "Main",
+    "primaryFocus": "Technique",
+    "primaryHours": 1.5,
+    "secondaryFocus": "Management",
+    "secondaryHours": 1,
+    "diceRequired": true,
+    "milestone": true,
+    "unlocksStage": 2,
+    "unlockMessage": "Stage 2: Knife Skills & Heat Control is now available!",
     "learningObjectives": [
       "Master basic egg cookery techniques",
       "Develop timing skills for multiple breakfast components",
@@ -1491,6 +1453,42 @@ const QUEST_DATA = [
       "Small bowl for egg beating (if applicable)",
       "Measuring cups and spoons",
       "Timer"
+    ],
+    "completionChecklist": [
+      "Aromatic base development",
+      "Protein handling",
+      "Liquid management",
+      "Texture achievement",
+      "Proper cooking methods",
+      "Depth development",
+      "Seasoning balance",
+      "Flavor layering",
+      "Complementary components",
+      "Final taste adjustment",
+      "Egg cookery execution (proper doneness, appearance)",
+      "Toast preparation (properly toasted, not burnt)",
+      "Side dish execution (properly cooked, seasoned)",
+      "Mise en place organization",
+      "Timing coordination (all components finished together)",
+      "Kitchen cleanliness during process",
+      "Stress management during multi-component cooking"
+    ],
+    "tipsForSuccess": [
+      "Build flavor from the very beginning with proper aromatics",
+      "Don't rush the base development - it's the foundation of your soup",
+      "Season in layers throughout cooking",
+      "Taste frequently and adjust as needed",
+      "For clear soups, simmer gently; never boil vigorously",
+      "Add acids (tomatoes, citrus, vinegar) after beans are tender",
+      "Add dairy off heat or at very low temperatures",
+      "For make-ahead: slightly undercook vegetables, they'll continue cooking when reheated",
+      "Let soup rest 10-15 minutes before serving for flavors to meld",
+      "Garnish just before serving for maximum visual impact and freshness",
+      "Read all instructions before beginning",
+      "Prepare all ingredients before starting to cook",
+      "Use timers to keep track of multiple components",
+      "Practice 'clean as you go' to maintain workspace",
+      "For advanced egg techniques, consider practicing them separately before the full challenge"
     ],
     "contentSections": [
       {
@@ -1530,70 +1528,23 @@ const QUEST_DATA = [
     ],
     "practicalExercises": [
       {
-        "title": "Dice Roll Mechanics",
-        "steps": [
-          "Roll for Soup Base Style (d6): 1-Clear broth-based, 2-Creamy (dairy or non-dairy), 3-Tomato-based, 4-Bean or lentil foundation, 5-Pureed vegetable, 6-Stew-like (thick with chunky components)",
-          "Roll for Primary Protein (d6): 1-Chicken, 2-Beef or pork, 3-Seafood (fish, shrimp), 4-Beans or legumes, 5-Tofu or plant-based protein, 6-Multiple protein combination",
-          "Roll for Flavor Direction (d6): 1-Classic European (French, Italian), 2-Asian (choose specific cuisine), 3-Latin American, 4-Mediterranean, 5-American regional (New England, Southern, etc.), 6-Seasonal harvest focus",
-          "Roll for Special Addition (d6): 1-Grain or pasta component, 2-Herb or spice accent (unique flavor boost), 3-Creamy finish (yogurt, coconut milk, cream), 4-Crunchy topping (croutons, seeds, nuts), 5-Fresh herb or microgreen garnish, 6-Acidic finish (citrus, vinegar, pickled element)",
-          "Prepare your hearty soup based on your rolls, following the techniques described in the content sections",
-          "Roll for Egg Preparation Technique (d6): 1-Sunny-side up, 2-Over easy, 3-Scrambled, 4-Poached, 5-Omelette, 6-Eggs Benedict",
-          "Roll for Toast Preparation (d6): 1-Regular toast with butter, 2-Avocado toast, 3-Cheese toast, 4-Cinnamon sugar toast, 5-Garlic herb toast, 6-French toast",
-          "Roll for Side Dish (d6): 1-Fresh fruit, 2-Yogurt with honey, 3-Roasted potatoes, 4-Bacon or breakfast meat, 5-Sautéed vegetables, 6-Overnight oats",
-          "Prepare your breakfast based on your rolls, following the techniques described in the content sections"
-        ]
+        "title": "Dice Roll Mechanics"
       }
-    ],
-    "completionChecklist": [
-      "Aromatic base development",
-      "Protein handling",
-      "Liquid management",
-      "Texture achievement",
-      "Proper cooking methods",
-      "Depth development",
-      "Seasoning balance",
-      "Flavor layering",
-      "Complementary components",
-      "Final taste adjustment",
-      "Egg cookery execution (proper doneness, appearance)",
-      "Toast preparation (properly toasted, not burnt)",
-      "Side dish execution (properly cooked, seasoned)",
-      "Mise en place organization",
-      "Timing coordination (all components finished together)",
-      "Kitchen cleanliness during process",
-      "Stress management during multi-component cooking"
-    ],
-    "tipsForSuccess": [
-      "Build flavor from the very beginning with proper aromatics",
-      "Don't rush the base development - it's the foundation of your soup",
-      "Season in layers throughout cooking",
-      "Taste frequently and adjust as needed",
-      "For clear soups, simmer gently; never boil vigorously",
-      "Add acids (tomatoes, citrus, vinegar) after beans are tender",
-      "Add dairy off heat or at very low temperatures",
-      "For make-ahead: slightly undercook vegetables, they'll continue cooking when reheated",
-      "Let soup rest 10-15 minutes before serving for flavors to meld",
-      "Garnish just before serving for maximum visual impact and freshness",
-      "Read all instructions before beginning",
-      "Prepare all ingredients before starting to cook",
-      "Use timers to keep track of multiple components",
-      "Practice 'clean as you go' to maintain workspace",
-      "For advanced egg techniques, consider practicing them separately before the full challenge"
     ]
   },
   {
     "id": 46,
     "questName": "Basic Sandwich Lunch Challenge",
+    "description": "Build flavor profiles and textures while learning proper sandwich construction techniques.",
     "rank": "Home Cook",
+    "stageId": 1,
+    "stageName": "Kitchen Fundamentals",
     "type": "Main",
     "primaryFocus": "Technique",
-    "secondaryFocus": "Management",
     "primaryHours": 1.5,
+    "secondaryFocus": "Management",
     "secondaryHours": 1,
     "diceRequired": true,
-    "description": "Build flavor profiles and textures while learning proper sandwich construction techniques.",
-    "stageId": 4,
-    "stageName": "Basic Sides & Components",
     "learningObjectives": [
       "Learn optimal ingredient layering and sandwich construction",
       "Develop knife skills for consistent cutting and preparation",
@@ -1607,6 +1558,23 @@ const QUEST_DATA = [
       "Toaster (optional)",
       "Small bowls for mise en place",
       "Measuring spoons"
+    ],
+    "completionChecklist": [
+      "Knife skills (even slicing, appropriate thickness)",
+      "Sandwich construction (stable, doesn't fall apart)",
+      "Moisture control (bread not soggy)",
+      "Side dish execution",
+      "Preparation sequence logic",
+      "Workspace organization",
+      "Efficiency of movement",
+      "Meal balance (nutrition, flavor, texture)"
+    ],
+    "tipsForSuccess": [
+      "Always toast bread if using wet ingredients",
+      "Season each layer of the sandwich, not just the spread",
+      "Cut ingredients to fit properly within the bread",
+      "Think about texture contrast: crunchy with soft, creamy with firm",
+      "Consider temperature: let hot ingredients cool slightly before assembly"
     ],
     "contentSections": [
       {
@@ -1663,32 +1631,8 @@ const QUEST_DATA = [
     ],
     "practicalExercises": [
       {
-        "title": "Dice Roll Mechanics",
-        "steps": [
-          "Roll for Bread Type (d6): 1-White sandwich bread, 2-Whole grain bread, 3-Sourdough, 4-Ciabatta roll, 5-Baguette, 6-Pita or wrap",
-          "Roll for Protein Component (d6): 1-Sliced deli turkey or ham, 2-Tuna salad, 3-Egg salad, 4-Sliced cheese (vegetarian), 5-Hummus (vegan), 6-Leftover roasted chicken or beef",
-          "Roll for Flavor Profile (d6): 1-Classic (lettuce, tomato, mayo), 2-Mediterranean (olive oil, herbs, feta), 3-Spicy (hot sauce, jalapeños, spicy mayo), 4-Sweet & savory (fruit, honey, cheese), 5-Umami-focused (mushrooms, tomatoes, parmesan), 6-Herb-forward (fresh herbs, vinaigrette)",
-          "Roll for Side Dish (d6): 1-Simple green salad, 2-Potato chips, 3-Fresh fruit, 4-Quick pickled vegetables, 5-Soup (canned or simple homemade), 6-Roasted vegetables",
-          "Prepare your sandwich and side dish based on your rolls, following the techniques in the content sections"
-        ]
+        "title": "Dice Roll Mechanics"
       }
-    ],
-    "completionChecklist": [
-      "Knife skills (even slicing, appropriate thickness)",
-      "Sandwich construction (stable, doesn't fall apart)",
-      "Moisture control (bread not soggy)",
-      "Side dish execution",
-      "Preparation sequence logic",
-      "Workspace organization",
-      "Efficiency of movement",
-      "Meal balance (nutrition, flavor, texture)"
-    ],
-    "tipsForSuccess": [
-      "Always toast bread if using wet ingredients",
-      "Season each layer of the sandwich, not just the spread",
-      "Cut ingredients to fit properly within the bread",
-      "Think about texture contrast: crunchy with soft, creamy with firm",
-      "Consider temperature: let hot ingredients cool slightly before assembly"
     ]
   },
   {
