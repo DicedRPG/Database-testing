@@ -1182,6 +1182,48 @@ const AdminController = {
         }
     },
 
+    // Export quests for Amplify deployment
+exportQuestsForAmplify: function() {
+  try {
+    // Get all quests
+    const quests = this.quests;
+    
+    if (!quests || quests.length === 0) {
+      this.showNotification('No quests available to export', 'error');
+      return;
+    }
+    
+    // Format the data.js content
+    const dataJsContent = `// Generated on ${new Date().toISOString()}\n` + 
+                         `// Total quests: ${quests.length}\n` +
+                         `const QUEST_DATA = ${JSON.stringify(quests, null, 2)};`;
+    
+    // Create a download link
+    const blob = new Blob([dataJsContent], { type: 'application/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data.js';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    this.showNotification(`Successfully exported ${quests.length} quests to data.js`, 'success');
+  } catch (error) {
+    console.error('Failed to export quests:', error);
+    this.showNotification('Failed to export quests: ' + error.message, 'error');
+  }
+},
+
+// Add this to your setupEventListeners method in AdminController
+setupEventListeners: function() {
+  // ... existing code ...
+  
+  // Add export for Amplify button
+  document.getElementById('export-all-quests').addEventListener('click', () => this.exportQuestsForAmplify());
+},
+
     // Show the import modal
     showImportModal() {
         const modal = document.getElementById('import-modal');
