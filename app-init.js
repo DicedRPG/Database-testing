@@ -1,12 +1,12 @@
 // app-init.js - Initialize the app
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   console.log('Initializing application...');
   
-  // Initialize state service first
-  StateService.initialize();
+  // Initialize services
+  await StateService.initialize();
+  await QuestService.initialize();
   
-  // Then initialize your existing code
-  // (We'll gradually replace these with our new system)
+  // Initialize existing code (to be gradually replaced)
   if (window.store) {
     window.store.loadFromStorage();
   }
