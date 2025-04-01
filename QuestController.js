@@ -151,7 +151,7 @@ const QuestController = {
         
         // Show notification
         if (quest.unlockMessage) {
-          this.showNotification(quest.unlockMessage);
+           NotificationService.success(quest.unlockMessage);
         }
       }
     }
