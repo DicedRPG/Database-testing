@@ -1,34 +1,17 @@
 // direct-fix-script.js
-// Comprehensive quest visibility cleanup across all stages
+// Comprehensive quest visibility cleanup respecting stage progression
 (function() {
-    console.log('Direct Fix: Initializing comprehensive quest visibility cleanup...');
+    console.log('Direct Fix: Initializing quest visibility cleanup...');
     
     // Wait longer for app to fully initialize
     setTimeout(runComprehensiveFix, 8000);
     
     // Main fix function
     function runComprehensiveFix() {
-        console.log('Direct Fix: Running comprehensive visibleQuests cleanup...');
+        console.log('Direct Fix: Running visibleQuests cleanup...');
         
         try {
-            // Step 1: Get all quests from localStorage
-            const questsString = localStorage.getItem('diced_rpg_quests');
-            if (!questsString) {
-                console.warn('Direct Fix: No quests found in localStorage');
-                return;
-            }
-            
-            const quests = JSON.parse(questsString);
-            console.log(`Direct Fix: Found ${quests.length} quests in localStorage`);
-            
-            // Step 2: Get quest IDs from current QUEST_DATA
-            const currentQuestIds = QUEST_DATA.map(quest => quest.id);
-            const validStageIds = QUEST_DATA.map(quest => quest.stageId);
-            
-            console.log(`Direct Fix: Current valid quest IDs:`, currentQuestIds);
-            console.log(`Direct Fix: Valid stages:`, validStageIds);
-            
-            // Step 3: Get user state directly from localStorage
+            // Step 1: Get user state directly from localStorage
             const stateString = localStorage.getItem('diced_rpg_state');
             if (!stateString) {
                 console.warn('Direct Fix: No user state found in localStorage');
@@ -39,36 +22,31 @@
             let state = JSON.parse(stateString);
             console.log('Direct Fix: Current user state:', state);
             
-            // Step 4: Ensure visibleQuests exists
+            // Step 2: Ensure required state properties exist
+            state.completedQuests = state.completedQuests || [];
             state.visibleQuests = state.visibleQuests || [];
             
+            // Step 3: Determine unlocked stages based on milestone quests
+            const completedQuestIds = state.completedQuests.map(c => c.questId);
+            const unlockedStages = determineUnlockedStages(completedQuestIds);
+            
+            console.log('Direct Fix: Unlocked stages:', unlockedStages);
+            
+            // Step 4: Filter visible quests
             const originalVisibleQuestCount = state.visibleQuests.length;
             
-            // Step 5: Comprehensive quest visibility cleanup
-            // Keep only:
-            // 1. Quests that exist in current QUEST_DATA
-            // 2. Completed quests (even if they're no longer in current data)
-            const completedQuestIds = (state.completedQuests || []).map(c => c.questId);
+            // Find all visible quests for unlocked stages
+            const visibleQuestIds = QUEST_DATA
+                .filter(quest => 
+                    unlockedStages.includes(quest.stageId) || 
+                    completedQuestIds.includes(quest.id)
+                )
+                .map(quest => quest.id);
             
-            // Filter visible quests to only those in current quest data or completed
-            state.visibleQuests = state.visibleQuests.filter(questId => 
-                currentQuestIds.includes(questId) || 
-                completedQuestIds.includes(questId)
-            );
+            // Update visible quests
+            state.visibleQuests = [...new Set(visibleQuestIds)];
             
-            // Step 6: Ensure all quests from the latest QUEST_DATA are visible
-            const missingQuests = currentQuestIds.filter(
-                id => !state.visibleQuests.includes(id)
-            );
-            
-            if (missingQuests.length > 0) {
-                state.visibleQuests.push(...missingQuests);
-            }
-            
-            // Deduplicate visible quests
-            state.visibleQuests = [...new Set(state.visibleQuests)];
-            
-            // Step 7: Save changes if there are any
+            // Step 5: Save changes if there are any
             if (state.visibleQuests.length !== originalVisibleQuestCount) {
                 localStorage.setItem('diced_rpg_state', JSON.stringify(state));
                 
@@ -79,8 +57,7 @@
                 // Notification about changes
                 showQuestVisibilityNotification(
                     originalVisibleQuestCount, 
-                    state.visibleQuests.length, 
-                    missingQuests.length
+                    state.visibleQuests.length
                 );
                 
                 // Optionally reload
@@ -95,8 +72,27 @@
         }
     }
     
+    // Determine which stages are unlocked based on completed milestone quests
+    function determineUnlockedStages(completedQuestIds) {
+        // Always unlock Stage 1
+        const unlockedStages = [1];
+        
+        // Find milestone quests that unlock new stages
+        QUEST_DATA.forEach(quest => {
+            if (quest.milestone && quest.unlocksStage && 
+                completedQuestIds.includes(quest.id)) {
+                unlockedStages.push(quest.unlocksStage);
+            }
+        });
+        
+        console.log('Completed Quest IDs:', completedQuestIds);
+        console.log('Unlocked Stages:', unlockedStages);
+        
+        return unlockedStages;
+    }
+    
     // Show notification about quest visibility changes
-    function showQuestVisibilityNotification(originalCount, newCount, addedCount) {
+    function showQuestVisibilityNotification(originalCount, newCount) {
         const notification = document.createElement('div');
         notification.style.position = 'fixed';
         notification.style.top = '20px';
@@ -109,13 +105,13 @@
         notification.style.zIndex = '1000';
         notification.style.maxWidth = '300px';
         
-        const removedCount = originalCount - newCount + addedCount;
+        const changedCount = Math.abs(originalCount - newCount);
         
         notification.innerHTML = `
             <p style="margin: 0; font-weight: bold;">Quest Visibility Updated</p>
             <p style="margin: 5px 0 0 0; font-size: 14px;">
-                ${addedCount > 0 ? `Added ${addedCount} new quest${addedCount !== 1 ? 's' : ''}` : ''}
-                ${removedCount > 0 ? `${addedCount > 0 ? ' and ' : ''}Removed ${removedCount} invalid quest${removedCount !== 1 ? 's' : ''}` : ''}
+                ${changedCount} quest${changedCount !== 1 ? 's' : ''} 
+                ${newCount > originalCount ? 'added' : 'removed'}
             </p>
         `;
         
