@@ -1194,8 +1194,14 @@ exportQuestsForAmplify: function() {
       return;
     }
     
-    // Format the data.js content
+    // Format the data.js content with current timestamp
     const dataJsContent = `// Generated on ${new Date().toISOString()}\n` + 
+                         `// Total quests: ${quests.length}\n` +
+                         `const QUEST_TYPE_COLORS = ${JSON.stringify(QUEST_TYPE_COLORS, null, 2)};\n\n` +
+                         `// Rank definitions\n` +
+                         `const RANKS = ${JSON.stringify(RANKS, null, 2)};\n\n` +
+                         `// Level definitions (for Home Cook)\n` +
+                         `const LEVELS = ${JSON.stringify(LEVELS, null, 2)};\n\n` +
                          `// Total quests: ${quests.length}\n` +
                          `const QUEST_DATA = ${JSON.stringify(quests, null, 2)};`;
     
