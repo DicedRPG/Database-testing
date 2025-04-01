@@ -181,4 +181,46 @@ const StateService = {
     this._notifyListeners();
     return this._state;
   }
-};
+},
+
+// Update the add hours button event listener
+document.getElementById('add-hours-button')?.addEventListener('click', function() {
+  const attribute = document.getElementById('attribute-select').value;
+  const hours = parseFloat(document.getElementById('hours-input').value || 0);
+  
+  if (hours <= 0) {
+    alert('Please enter a valid number of hours');
+    return;
+  }
+  
+  // Use the new StateService instead of the old store
+  StateService.addAttributeHours(attribute, hours);
+  
+  // Reset input
+  document.getElementById('hours-input').value = '1';
+},
+
+// Function to update attribute displays using StateService
+function updateAttributeDisplays() {
+  const state = StateService.getState();
+  
+  // Update each attribute display
+  ['technique', 'ingredients', 'flavor', 'management'].forEach(attribute => {
+    const hours = state.user.attributes[attribute] || 0;
+    
+    // Update hours display
+    const hoursElement = document.getElementById(`${attribute}-hours`);
+    if (hoursElement) {
+      hoursElement.textContent = hours.toFixed(1);
+    }
+    
+    // You can also update other elements like progress bars
+    // based on the state data
+  });
+}
+
+// Subscribe to state changes to update the display automatically
+StateService.subscribe(updateAttributeDisplays);
+
+// Initial update
+updateAttributeDisplays();
