@@ -1,0 +1,37 @@
+name: Update Quest Data
+
+on:
+  push:
+    paths:
+      - 'data.js'
+    branches:
+      - main
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Replace with your region
+      
+      - name: Get Amplify app details
+        id: app-details
+        run: |
+          APP_INFO=$(aws amplify get-app --app-id ${{ secrets.AMPLIFY_APP_ID }})
+          DOMAIN=$(echo $APP_INFO | jq -r '.app.defaultDomain')
+          echo "DOMAIN=$DOMAIN" >> $GITHUB_ENV
+      
+      - name: Upload data.js file
+        run: |
+          # Get current build ID
+          LATEST_BUILD=$(aws amplify list-jobs --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --max-results 1 | jq -r '.jobSummaries[0].jobId')
+          
+          # Upload the file directly to the hosting environment
+          aws s3 cp data.js s3://amplify-${{ secrets.AMPLIFY_APP_ID }}-main-$LATEST_BUILD/data.js --content-type "application/javascript" --cache-control "no-cache, no-store, must-revalidate"
