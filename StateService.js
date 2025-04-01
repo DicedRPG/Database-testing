@@ -1,4 +1,7 @@
 // StateService.js - Unified state management
+
+STORAGE_KEY: ConfigService.STORAGE_KEYS.STATE,
+
 const StateService = {
   // The actual state data
   _state: null,
