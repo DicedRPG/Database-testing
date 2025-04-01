@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Initialize controllers
     QuestController.initialize();
+
+    // Initialize router (should be last so everything else is ready)
+    Router.initialize();
     
     console.log('Application initialized successfully');
   } catch (error) {
