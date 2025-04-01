@@ -1522,22 +1522,19 @@ const QUEST_DATA = [
       "Create a 'meal idea bank' for inspiration"
     ]
   },
-  {
+   {
     "id": 45,
     "questName": "Simple Breakfast Challenge",
-    "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
     "rank": "Home Cook",
-    "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
     "type": "Main",
     "primaryFocus": "Technique",
-    "primaryHours": 1.5,
     "secondaryFocus": "Management",
+    "primaryHours": 1.5,
     "secondaryHours": 1,
     "diceRequired": true,
-    "milestone": true,
-    "unlocksStage": 2,
-    "unlockMessage": "Stage 2: Knife Skills & Heat Control is now available!",
+    "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
+    "stageId": 1,
+    "stageName": "Basic Sides & Components",
     "learningObjectives": [
       "Master basic egg cookery techniques",
       "Develop timing skills for multiple breakfast components",
@@ -1550,42 +1547,6 @@ const QUEST_DATA = [
       "Small bowl for egg beating (if applicable)",
       "Measuring cups and spoons",
       "Timer"
-    ],
-    "completionChecklist": [
-      "Aromatic base development",
-      "Protein handling",
-      "Liquid management",
-      "Texture achievement",
-      "Proper cooking methods",
-      "Depth development",
-      "Seasoning balance",
-      "Flavor layering",
-      "Complementary components",
-      "Final taste adjustment",
-      "Egg cookery execution (proper doneness, appearance)",
-      "Toast preparation (properly toasted, not burnt)",
-      "Side dish execution (properly cooked, seasoned)",
-      "Mise en place organization",
-      "Timing coordination (all components finished together)",
-      "Kitchen cleanliness during process",
-      "Stress management during multi-component cooking"
-    ],
-    "tipsForSuccess": [
-      "Build flavor from the very beginning with proper aromatics",
-      "Don't rush the base development - it's the foundation of your soup",
-      "Season in layers throughout cooking",
-      "Taste frequently and adjust as needed",
-      "For clear soups, simmer gently; never boil vigorously",
-      "Add acids (tomatoes, citrus, vinegar) after beans are tender",
-      "Add dairy off heat or at very low temperatures",
-      "For make-ahead: slightly undercook vegetables, they'll continue cooking when reheated",
-      "Let soup rest 10-15 minutes before serving for flavors to meld",
-      "Garnish just before serving for maximum visual impact and freshness",
-      "Read all instructions before beginning",
-      "Prepare all ingredients before starting to cook",
-      "Use timers to keep track of multiple components",
-      "Practice 'clean as you go' to maintain workspace",
-      "For advanced egg techniques, consider practicing them separately before the full challenge"
     ],
     "contentSections": [
       {
@@ -1625,8 +1586,55 @@ const QUEST_DATA = [
     ],
     "practicalExercises": [
       {
-        "title": "Dice Roll Mechanics"
+        "title": "Dice Roll Mechanics",
+        "steps": [
+          "Roll for Soup Base Style (d6): 1-Clear broth-based, 2-Creamy (dairy or non-dairy), 3-Tomato-based, 4-Bean or lentil foundation, 5-Pureed vegetable, 6-Stew-like (thick with chunky components)",
+          "Roll for Primary Protein (d6): 1-Chicken, 2-Beef or pork, 3-Seafood (fish, shrimp), 4-Beans or legumes, 5-Tofu or plant-based protein, 6-Multiple protein combination",
+          "Roll for Flavor Direction (d6): 1-Classic European (French, Italian), 2-Asian (choose specific cuisine), 3-Latin American, 4-Mediterranean, 5-American regional (New England, Southern, etc.), 6-Seasonal harvest focus",
+          "Roll for Special Addition (d6): 1-Grain or pasta component, 2-Herb or spice accent (unique flavor boost), 3-Creamy finish (yogurt, coconut milk, cream), 4-Crunchy topping (croutons, seeds, nuts), 5-Fresh herb or microgreen garnish, 6-Acidic finish (citrus, vinegar, pickled element)",
+          "Prepare your hearty soup based on your rolls, following the techniques described in the content sections",
+          "Roll for Egg Preparation Technique (d6): 1-Sunny-side up, 2-Over easy, 3-Scrambled, 4-Poached, 5-Omelette, 6-Eggs Benedict",
+          "Roll for Toast Preparation (d6): 1-Regular toast with butter, 2-Avocado toast, 3-Cheese toast, 4-Cinnamon sugar toast, 5-Garlic herb toast, 6-French toast",
+          "Roll for Side Dish (d6): 1-Fresh fruit, 2-Yogurt with honey, 3-Roasted potatoes, 4-Bacon or breakfast meat, 5-Sautéed vegetables, 6-Overnight oats",
+          "Prepare your breakfast based on your rolls, following the techniques described in the content sections"
+        ]
       }
+    ],
+    "completionChecklist": [
+      "Aromatic base development",
+      "Protein handling",
+      "Liquid management",
+      "Texture achievement",
+      "Proper cooking methods",
+      "Depth development",
+      "Seasoning balance",
+      "Flavor layering",
+      "Complementary components",
+      "Final taste adjustment",
+      "Egg cookery execution (proper doneness, appearance)",
+      "Toast preparation (properly toasted, not burnt)",
+      "Side dish execution (properly cooked, seasoned)",
+      "Mise en place organization",
+      "Timing coordination (all components finished together)",
+      "Kitchen cleanliness during process",
+      "Stress management during multi-component cooking"
+    ],
+    "tipsForSuccess": [
+      "Build flavor from the very beginning with proper aromatics",
+      "Don't rush the base development - it's the foundation of your soup",
+      "Season in layers throughout cooking",
+      "Taste frequently and adjust as needed",
+      "For clear soups, simmer gently; never boil vigorously",
+      "Add acids (tomatoes, citrus, vinegar) after beans are tender",
+      "Add dairy off heat or at very low temperatures",
+      "For make-ahead: slightly undercook vegetables, they'll continue cooking when reheated",
+      "Let soup rest 10-15 minutes before serving for flavors to meld",
+      "Garnish just before serving for maximum visual impact and freshness",
+      "Read all instructions before beginning",
+      "Prepare all ingredients before starting to cook",
+      "Use timers to keep track of multiple components",
+      "Practice 'clean as you go' to maintain workspace",
+      "For advanced egg techniques, consider practicing them separately before the full challenge"
     ]
   },
   {
