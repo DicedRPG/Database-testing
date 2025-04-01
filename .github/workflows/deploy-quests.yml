@@ -23,5 +23,5 @@ jobs:
       
       - name: Deploy to Amplify
         run: |
-          echo "Triggering build for Amplify app..."
+          echo "Triggering build for Amplify app ${{ secrets.AMPLIFY_APP_ID }}..."
           aws amplify start-job --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --job-type RELEASE
