@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T14:40:12.044Z
+// Generated on 2025-04-01T14:45:12.044Z
 // Total quests: 29
 const QUEST_TYPE_COLORS = {
   "Training": "#64D949",
@@ -1994,8 +1994,8 @@ const QUEST_DATA = [
     "secondaryHours": 1,
     "diceRequired": true,
     "description": "Master the fundamental techniques of stir-frying: high heat, rapid cooking, and precise timing.",
-    "stageId": 4,
-    "stageName": "Basic Sides & Components",
+    "stageId": 1,
+    "stageName": "Kitchen Fundamentals",
     "learningObjectives": [
       "Master the principles of high-heat cooking",
       "Learn proper ingredient cutting for even cooking",
