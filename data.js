@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T14:30:12.044Z
+// Generated on 2025-04-01T14:40:12.044Z
 // Total quests: 29
 const QUEST_TYPE_COLORS = {
   "Training": "#64D949",
@@ -100,7 +100,7 @@ const LEVELS = [
 const QUEST_DATA = [
   {
     "id": 1,
-    "questName": "Kitchen Safety & Cleaning",
+    "questName": "Kitchen Safety & Testing",
     "rank": "Home Cook",
     "type": "Training",
     "primaryFocus": "Management",
@@ -1867,8 +1867,8 @@ const QUEST_DATA = [
     "secondaryHours": 1,
     "diceRequired": true,
     "description": "Learn kitchen management and efficiency skills to create a balanced, nutritious meal in under 45 minutes.",
-    "stageId": 4,
-    "stageName": "Basic Sides & Components",
+    "stageId": 1,
+    "stageName": "Kitchen Fundamentals",
     "learningObjectives": [
       "Master time management in the kitchen",
       "Learn parallel processing of multiple recipe steps",
