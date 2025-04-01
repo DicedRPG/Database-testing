@@ -1,5 +1,5 @@
 // direct-fix-script.js
-// Comprehensive fix for visible quests management
+// Comprehensive quest visibility cleanup across all stages
 (function() {
     console.log('Direct Fix: Initializing comprehensive quest visibility cleanup...');
     
@@ -21,10 +21,12 @@
             const quests = JSON.parse(questsString);
             console.log(`Direct Fix: Found ${quests.length} quests in localStorage`);
             
-            // Step 2: Get current Stage 1 quest IDs
-            const stage1Quests = quests.filter(quest => quest.stageId === 1);
-            const stage1Ids = stage1Quests.map(quest => quest.id);
-            console.log(`Direct Fix: Found ${stage1Quests.length} Stage 1 quests:`, stage1Ids);
+            // Step 2: Get quest IDs from current QUEST_DATA
+            const currentQuestIds = QUEST_DATA.map(quest => quest.id);
+            const validStageIds = QUEST_DATA.map(quest => quest.stageId);
+            
+            console.log(`Direct Fix: Current valid quest IDs:`, currentQuestIds);
+            console.log(`Direct Fix: Valid stages:`, validStageIds);
             
             // Step 3: Get user state directly from localStorage
             const stateString = localStorage.getItem('diced_rpg_state');
@@ -44,22 +46,23 @@
             
             // Step 5: Comprehensive quest visibility cleanup
             // Keep only:
-            // 1. Stage 1 quests
-            // 2. Completed quests (even if they're not in Stage 1 anymore)
+            // 1. Quests that exist in current QUEST_DATA
+            // 2. Completed quests (even if they're no longer in current data)
             const completedQuestIds = (state.completedQuests || []).map(c => c.questId);
             
+            // Filter visible quests to only those in current quest data or completed
             state.visibleQuests = state.visibleQuests.filter(questId => 
-                stage1Ids.includes(questId) || 
+                currentQuestIds.includes(questId) || 
                 completedQuestIds.includes(questId)
             );
             
-            // Step 6: Ensure all Stage 1 quests are visible
-            const missingStage1Quests = stage1Ids.filter(
+            // Step 6: Ensure all quests from the latest QUEST_DATA are visible
+            const missingQuests = currentQuestIds.filter(
                 id => !state.visibleQuests.includes(id)
             );
             
-            if (missingStage1Quests.length > 0) {
-                state.visibleQuests.push(...missingStage1Quests);
+            if (missingQuests.length > 0) {
+                state.visibleQuests.push(...missingQuests);
             }
             
             // Deduplicate visible quests
@@ -77,7 +80,7 @@
                 showQuestVisibilityNotification(
                     originalVisibleQuestCount, 
                     state.visibleQuests.length, 
-                    missingStage1Quests.length
+                    missingQuests.length
                 );
                 
                 // Optionally reload
@@ -111,7 +114,7 @@
         notification.innerHTML = `
             <p style="margin: 0; font-weight: bold;">Quest Visibility Updated</p>
             <p style="margin: 5px 0 0 0; font-size: 14px;">
-                ${addedCount > 0 ? `Added ${addedCount} new Stage 1 quest${addedCount !== 1 ? 's' : ''}` : ''}
+                ${addedCount > 0 ? `Added ${addedCount} new quest${addedCount !== 1 ? 's' : ''}` : ''}
                 ${removedCount > 0 ? `${addedCount > 0 ? ' and ' : ''}Removed ${removedCount} invalid quest${removedCount !== 1 ? 's' : ''}` : ''}
             </p>
         `;
@@ -125,26 +128,4 @@
             }
         }, 10000);
     }
-    
-    // Create a manual fix button
-    function addFixButton() {
-        const button = document.createElement('button');
-        button.textContent = 'Fix Quest Visibility';
-        button.style.position = 'fixed';
-        button.style.bottom = '20px';
-        button.style.right = '20px';
-        button.style.zIndex = '9999';
-        button.style.backgroundColor = '#A2BC58';
-        button.style.color = 'white';
-        button.style.border = 'none';
-        button.style.padding = '10px 15px';
-        button.style.borderRadius = '5px';
-        button.style.cursor = 'pointer';
-        
-        button.addEventListener('click', runComprehensiveFix);
-        document.body.appendChild(button);
-    }
-    
-    // Add manual fix button after a delay
-    setTimeout(addFixButton, 10000);
 })();
