@@ -156,27 +156,21 @@
     <div id="notification-container" class="notification-container"></div>
 
     <!-- JavaScript includes -->
+    <!-- First load data.js for quest data -->
     <script src="data.js"></script>
+    
+    <!-- Load the version checker to handle quest data updates -->
+    <script src="quest-version-checker.js"></script>
+    
+    <!-- Load core services -->
     <script src="database-service.js"></script>
     <script src="user-state-service.js"></script>
     <script src="router.js"></script>
+    
+    <!-- Load application controller -->
     <script src="app-controller.js"></script>
     
-    <!-- Initialize the app -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize the app controller
-            appController.initialize();
-            
-            // Add event listeners for navigation
-            document.getElementById('nav-home')?.addEventListener('click', () => {
-                router.navigate('home');
-            });
-            
-            document.getElementById('nav-settings')?.addEventListener('click', () => {
-                router.navigate('settings');
-            });
-        });
-    </script>
+    <!-- Load the app initializer last -->
+    <script src="app-initializer.js"></script>
 </body>
 </html>
