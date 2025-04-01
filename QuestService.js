@@ -1,4 +1,7 @@
 // QuestService.js - Quest data management
+
+STORAGE_KEY: ConfigService.STORAGE_KEYS.QUESTS,
+
 const QuestService = {
   // Array of all quests
   _quests: null,
