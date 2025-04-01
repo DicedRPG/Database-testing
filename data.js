@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T14:45:12.044Z
+// Generated on 2025-04-01T14:59:12.044Z
 // Total quests: 29
 const QUEST_TYPE_COLORS = {
   "Training": "#64D949",
@@ -1743,8 +1743,8 @@ const QUEST_DATA = [
     "secondaryHours": 1,
     "diceRequired": true,
     "description": "Master pasta cookery, sauce development, and protein preparation in a cohesive dish.",
-    "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
+    "stageId": 4,
+    "stageName": "Full Meal Preparation",
     "learningObjectives": [
       "Master proper pasta cooking technique to achieve al dente texture",
       "Develop a flavorful sauce from basic ingredients",
@@ -1867,8 +1867,8 @@ const QUEST_DATA = [
     "secondaryHours": 1,
     "diceRequired": true,
     "description": "Learn kitchen management and efficiency skills to create a balanced, nutritious meal in under 45 minutes.",
-    "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
+    "stageId": 4,
+    "stageName": "Full Meal Preparation",
     "learningObjectives": [
       "Master time management in the kitchen",
       "Learn parallel processing of multiple recipe steps",
@@ -1994,8 +1994,8 @@ const QUEST_DATA = [
     "secondaryHours": 1,
     "diceRequired": true,
     "description": "Master the fundamental techniques of stir-frying: high heat, rapid cooking, and precise timing.",
-    "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
+    "stageId": 4,
+    "stageName": "Full Meal Preparation",
     "learningObjectives": [
       "Master the principles of high-heat cooking",
       "Learn proper ingredient cutting for even cooking",
