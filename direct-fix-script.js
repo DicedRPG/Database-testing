@@ -1,126 +1,100 @@
-// direct-fix-script.js
-// Direct fix for visible quests without depending on userStateService
-
-(function() {
-    console.log('Direct Fix: Initializing...');
-    
-    // Wait longer for app to fully initialize
-    setTimeout(runFix, 8000);
-    
-    // Main fix function
-    function runFix() {
-        console.log('Direct Fix: Running direct visibleQuests fix...');
-        
-        try {
-            // Step 1: Get all quests from localStorage
-            const questsString = localStorage.getItem('diced_rpg_quests');
-            if (!questsString) {
-                console.warn('Direct Fix: No quests found in localStorage');
-                return;
-            }
-            
-            const quests = JSON.parse(questsString);
-            console.log(`Direct Fix: Found ${quests.length} quests in localStorage`);
-            
-            // Step 2: Get Stage 1 quest IDs
-            const stage1Quests = quests.filter(quest => quest.stageId === 1);
-            const stage1Ids = stage1Quests.map(quest => quest.id);
-            console.log(`Direct Fix: Found ${stage1Quests.length} Stage 1 quests:`, stage1Ids);
-            
-            // Step 3: Get user state directly from localStorage
-            const stateString = localStorage.getItem('diced_rpg_state');
-            if (!stateString) {
-                console.warn('Direct Fix: No user state found in localStorage');
-                return;
-            }
-            
-            // Parse the state and make a copy we can modify
-            let state = JSON.parse(stateString);
-            console.log('Direct Fix: Current user state:', state);
-            
-            // Step 4: Check if visibleQuests exists and create it if not
-            if (!state.visibleQuests) {
-                console.log('Direct Fix: Creating visibleQuests array');
-                state.visibleQuests = [];
-            }
-            
-            const visibleQuests = state.visibleQuests;
-            console.log(`Direct Fix: Current visible quests (${visibleQuests.length}):`, visibleQuests);
-            
-            // Step 5: Find which Stage 1 quests are not visible
-            const missingQuests = stage1Ids.filter(id => !visibleQuests.includes(id));
-            console.log(`Direct Fix: Found ${missingQuests.length} missing Stage 1 quests:`, missingQuests);
-            
-            if (missingQuests.length > 0) {
-                // Step 6: Update visible quests directly
-                state.visibleQuests = [...visibleQuests, ...missingQuests];
-                
-                // Save back to localStorage
-                localStorage.setItem('diced_rpg_state', JSON.stringify(state));
-                console.log('Direct Fix: Updated state in localStorage with new visible quests');
-                
-                // Show notification
-                showAddedQuestsNotification(missingQuests.length);
-                
-                // Force page reload to see changes
-                if (confirm(`Added ${missingQuests.length} new quest(s). Reload page to see them?`)) {
-                    window.location.reload();
-                }
-            } else {
-                console.log('Direct Fix: All Stage 1 quests are already visible');
-            }
-        } catch (error) {
-            console.error('Direct Fix: Unexpected error:', error);
+// Direct Fix Script for Quest Visibility Management
+function performDirectQuestVisibilityFix() {
+    try {
+        // Step 1: Retrieve current state from localStorage
+        const savedState = localStorage.getItem('diced_rpg_state');
+        if (!savedState) {
+            console.log('Direct Fix: No existing state found');
+            return;
         }
-    }
-    
-    // Show notification about added quests
-    function showAddedQuestsNotification(count) {
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.style.position = 'fixed';
-        notification.style.top = '20px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = '#A2BC58';
-        notification.style.color = 'white';
-        notification.style.padding = '15px';
-        notification.style.borderRadius = '5px';
-        notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-        notification.style.zIndex = '1000';
+
+        const state = JSON.parse(savedState);
         
-        notification.innerHTML = `
-            <p style="margin: 0; font-weight: bold;">
-                ${count} new quest${count > 1 ? 's' : ''} added!
-            </p>
-            <p style="margin: 5px 0 0 0; font-size: 14px;">
-                Reload the page to see them
-            </p>
-        `;
+        // Step 2: Ensure visibleQuests array exists
+        state.visibleQuests = state.visibleQuests || [];
         
-        document.body.appendChild(notification);
+        // Step 3: Get all Stage 1 quest IDs from QUEST_DATA
+        const stage1Ids = QUEST_DATA
+            .filter(quest => quest.stageId === 1)
+            .map(quest => quest.id);
         
-        // Remove after 10 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                document.body.removeChild(notification);
+        // Step 4: Get current visible quests
+        const visibleQuests = state.visibleQuests;
+        
+        // Step 5: Find missing and invalid quests
+        const missingQuests = stage1Ids.filter(id => !visibleQuests.includes(id));
+        const invalidQuests = visibleQuests.filter(id => 
+            !stage1Ids.includes(id) && 
+            !QUEST_DATA.some(quest => quest.id === id)
+        );
+        
+        // Flag to track if changes were made
+        let stateModified = false;
+        
+        // Step 6: Add missing quests
+        if (missingQuests.length > 0) {
+            state.visibleQuests = [...new Set([...visibleQuests, ...missingQuests])];
+            stateModified = true;
+            console.log(`Direct Fix: Added ${missingQuests.length} missing Stage 1 quests:`, missingQuests);
+        }
+        
+        // Step 7: Remove invalid quests
+        if (invalidQuests.length > 0) {
+            state.visibleQuests = state.visibleQuests.filter(id => 
+                stage1Ids.includes(id) || 
+                QUEST_DATA.some(quest => quest.id === id)
+            );
+            stateModified = true;
+            console.log(`Direct Fix: Removed ${invalidQuests.length} invalid quests:`, invalidQuests);
+        }
+        
+        // Step 8: Save changes if any modifications were made
+        if (stateModified) {
+            localStorage.setItem('diced_rpg_state', JSON.stringify(state));
+            console.log('Direct Fix: Updated state in localStorage');
+            
+            // Notification function
+            function showQuestChangeNotification(addedCount, removedCount) {
+                const notification = document.createElement('div');
+                notification.style.position = 'fixed';
+                notification.style.top = '20px';
+                notification.style.right = '20px';
+                notification.style.backgroundColor = '#A2BC58';
+                notification.style.color = 'white';
+                notification.style.padding = '15px';
+                notification.style.borderRadius = '5px';
+                notification.style.zIndex = '1000';
+                
+                let message = 'Quest visibility updated:';
+                if (addedCount > 0) {
+                    message += ` Added ${addedCount} new quest(s)`;
+                }
+                if (removedCount > 0) {
+                    message += `${addedCount > 0 ? ' and' : ''} Removed ${removedCount} invalid quest(s)`;
+                }
+                
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 5000);
             }
-        }, 10000);
+            
+            // Show notification about changes
+            showQuestChangeNotification(missingQuests.length, invalidQuests.length);
+            
+            // Optionally prompt for reload
+            if (confirm(`Quest visibility updated. Reload page to see changes?`)) {
+                window.location.reload();
+            }
+        } else {
+            console.log('Direct Fix: No changes needed. Quest visibility is correct.');
+        }
+    } catch (error) {
+        console.error('Direct Fix: Unexpected error:', error);
     }
-    
-    // Create a button for manual fix
-    function addFixButton() {
-        const button = document.createElement('button');
-        button.textContent = 'Fix Quest Visibility';
-        button.className = 'quest-button primary';
-        button.style.position = 'fixed';
-        button.style.bottom = '20px';
-        button.style.right = '20px';
-        button.style.zIndex = '9999';
-        
-        button.addEventListener('click', runFix);
-        document.body.appendChild(button);
-    }
-    
-    // Also add a button for manual fix after a delay
-    setTimeout(addFixButton, 10000);
-})();
+}
+
+// Run the fix when the script loads
+document.addEventListener('DOMContentLoaded', performDirectQuestVisibilityFix);
