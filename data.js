@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T14:59:12.044Z
+// Generated on 2025-04-01T16:58:12.044Z
 // Total quests: 29
 const QUEST_TYPE_COLORS = {
   "Training": "#64D949",
@@ -1523,215 +1523,230 @@ const QUEST_DATA = [
     ]
   },
   {
-    "id": 45,
-    "questName": "Simple Breakfast Challenge",
-    "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
-    "rank": "Home Cook",
-    "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
-    "type": "Main",
-    "primaryFocus": "Technique",
-    "primaryHours": 1.5,
-    "secondaryFocus": "Management",
-    "secondaryHours": 1,
-    "diceRequired": true,
-    "milestone": true,
-    "unlocksStage": 2,
-    "unlockMessage": "Stage 2: Knife Skills & Heat Control is now available!",
-    "learningObjectives": [
-      "Master basic egg cookery techniques",
-      "Develop timing skills for multiple breakfast components",
-      "Practice heat control and ingredient preparation"
-    ],
-    "equipmentNeeded": [
-      "Non-stick skillet or pan",
-      "Toaster or oven",
-      "Spatula",
-      "Small bowl for egg beating (if applicable)",
-      "Measuring cups and spoons",
-      "Timer"
-    ],
-    "completionChecklist": [
-      "Aromatic base development",
-      "Protein handling",
-      "Liquid management",
-      "Texture achievement",
-      "Proper cooking methods",
-      "Depth development",
-      "Seasoning balance",
-      "Flavor layering",
-      "Complementary components",
-      "Final taste adjustment",
-      "Egg cookery execution (proper doneness, appearance)",
-      "Toast preparation (properly toasted, not burnt)",
-      "Side dish execution (properly cooked, seasoned)",
-      "Mise en place organization",
-      "Timing coordination (all components finished together)",
-      "Kitchen cleanliness during process",
-      "Stress management during multi-component cooking"
-    ],
-    "tipsForSuccess": [
-      "Build flavor from the very beginning with proper aromatics",
-      "Don't rush the base development - it's the foundation of your soup",
-      "Season in layers throughout cooking",
-      "Taste frequently and adjust as needed",
-      "For clear soups, simmer gently; never boil vigorously",
-      "Add acids (tomatoes, citrus, vinegar) after beans are tender",
-      "Add dairy off heat or at very low temperatures",
-      "For make-ahead: slightly undercook vegetables, they'll continue cooking when reheated",
-      "Let soup rest 10-15 minutes before serving for flavors to meld",
-      "Garnish just before serving for maximum visual impact and freshness",
-      "Read all instructions before beginning",
-      "Prepare all ingredients before starting to cook",
-      "Use timers to keep track of multiple components",
-      "Practice 'clean as you go' to maintain workspace",
-      "For advanced egg techniques, consider practicing them separately before the full challenge"
-    ],
-    "contentSections": [
-      {
-        "title": "Preparation Phase",
-        "subsections": [
-          {
-            "subtitle": "Mise en Place",
-            "content": "Gather all ingredients and equipment before beginning. Prepare your workspace with separate areas for each component. Pre-measure ingredients for each component. Roll dice to determine your specific breakfast components."
-          },
-          {
-            "subtitle": "Component Planning",
-            "content": "Read through all instructions for your specific roll combination. Create a timeline working backward from serving time. Identify which components take longest to cook and start with those."
-          }
-        ]
-      },
-      {
-        "title": "Cooking Phase",
-        "subsections": [
-          {
-            "subtitle": "Egg Techniques",
-            "content": "Sunny-side up: Heat pan to medium, add butter, crack egg, cook until white is set but yolk is runny. Over easy: Same as sunny-side up, but flip briefly to set top of white. Scrambled: Beat eggs with salt and pepper, cook in butter over medium-low heat, stirring frequently. Poached: Simmer water with vinegar, create gentle whirlpool, drop in egg, cook 3 minutes. Omelette: Beat eggs, pour into hot pan, add fillings, fold over when mostly set. Eggs Benedict: Poach eggs, prepare hollandaise sauce, serve on English muffin with ham."
-          },
-          {
-            "subtitle": "Toast Variations",
-            "content": "Regular toast: Toast bread, spread with butter. Avocado toast: Mash ripe avocado with lemon juice, salt, pepper; spread on toast. Cheese toast: Add cheese during last minute of toasting to melt. Cinnamon sugar toast: Mix cinnamon and sugar, spread butter on toast, sprinkle mixture. Garlic herb toast: Mix butter with minced garlic and herbs, spread on toast. French toast: Dip bread in egg/milk mixture, cook in pan until golden."
-          },
-          {
-            "subtitle": "Side Dish Preparation",
-            "content": "Fresh fruit: Wash and slice seasonal fruits. Yogurt with honey: Combine yogurt with honey and optional toppings. Roasted potatoes: Dice potatoes, toss with oil and seasonings, roast 20-25 minutes. Bacon/breakfast meat: Cook bacon or sausage until done to your liking. Sautéed vegetables: Sauté diced peppers, onions, mushrooms until tender. Overnight oats: Prepare the night before with oats, milk, and toppings."
-          },
-          {
-            "subtitle": "Critical Timing Management",
-            "content": "Start components in reverse order of cooking time. Coordinate cooking times so everything finishes simultaneously. Use the lower heat setting for eggs if other components need more attention. Keep toast warm in oven if needed while finishing other components."
-          }
-        ]
-      }
-    ],
-    "practicalExercises": [
-      {
-        "title": "Dice Roll Mechanics"
-      }
-    ]
-  },
-  {
-    "id": 46,
-    "questName": "Basic Sandwich Lunch Challenge",
-    "description": "Build flavor profiles and textures while learning proper sandwich construction techniques.",
-    "rank": "Home Cook",
-    "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
-    "type": "Main",
-    "primaryFocus": "Technique",
-    "primaryHours": 1.5,
-    "secondaryFocus": "Management",
-    "secondaryHours": 1,
-    "diceRequired": true,
-    "learningObjectives": [
-      "Learn optimal ingredient layering and sandwich construction",
-      "Develop knife skills for consistent cutting and preparation",
-      "Balance flavors and textures across a complete meal",
-      "Manage preparation of multiple components"
-    ],
-    "equipmentNeeded": [
-      "Cutting board",
-      "Chef's knife",
-      "Serving plates",
-      "Toaster (optional)",
-      "Small bowls for mise en place",
-      "Measuring spoons"
-    ],
-    "completionChecklist": [
-      "Knife skills (even slicing, appropriate thickness)",
-      "Sandwich construction (stable, doesn't fall apart)",
-      "Moisture control (bread not soggy)",
-      "Side dish execution",
-      "Preparation sequence logic",
-      "Workspace organization",
-      "Efficiency of movement",
-      "Meal balance (nutrition, flavor, texture)"
-    ],
-    "tipsForSuccess": [
-      "Always toast bread if using wet ingredients",
-      "Season each layer of the sandwich, not just the spread",
-      "Cut ingredients to fit properly within the bread",
-      "Think about texture contrast: crunchy with soft, creamy with firm",
-      "Consider temperature: let hot ingredients cool slightly before assembly"
-    ],
-    "contentSections": [
-      {
-        "title": "Preparation Phase",
-        "subsections": [
-          {
-            "subtitle": "Mise en Place",
-            "content": "Roll your dice to determine your sandwich components. Gather all ingredients and equipment. Wash and prepare all vegetables and herbs. Set up a logical assembly area."
-          },
-          {
-            "subtitle": "Component Planning",
-            "content": "Prepare the side dish first if it requires cooking. Slice and organize all sandwich components before assembly. Consider toasting bread if appropriate for your combination."
-          }
-        ]
-      },
-      {
-        "title": "Sandwich Construction Technique",
-        "subsections": [
-          {
-            "subtitle": "Foundation Layer",
-            "content": "Apply spreads directly to both bread slices. If using mayonnaise, spread on both slices as a moisture barrier."
-          },
-          {
-            "subtitle": "Structural Ingredients",
-            "content": "Place sturdy ingredients like meat or cheese directly on bread. For leaf lettuce, place against spread to prevent soggy bread."
-          },
-          {
-            "subtitle": "Middle Layer",
-            "content": "Place tomatoes or wetter ingredients in the middle, between other ingredients. Season each layer with salt and pepper as you build."
-          },
-          {
-            "subtitle": "Moisture Management",
-            "content": "Pat wet ingredients dry with a paper towel before adding. If using avocado, place between meat and cheese to prevent oxidation. For very wet ingredients (like tomatoes), consider placing between cheese slices."
-          },
-          {
-            "subtitle": "Final Assembly",
-            "content": "Press gently to compact ingredients. Cut sandwich appropriately for the bread type (diagonal for square bread, straight for round). Secure with toothpick if necessary for tall sandwiches."
-          }
-        ]
-      },
-      {
-        "title": "Side Dish Preparation",
-        "subsections": [
-          {
-            "subtitle": "Side Dish Options",
-            "content": "Simple green salad: Toss greens with basic vinaigrette (3 parts oil to 1 part vinegar, salt, pepper). Potato chips: Serve alongside, or make quick homemade chips if ambitious. Fresh fruit: Wash and slice seasonal fruit. Quick pickled vegetables: Slice cucumber or radish, soak in vinegar, salt, and sugar for 15 minutes. Soup: Heat canned soup or prepare a simple 15-minute soup. Roasted vegetables: Toss vegetables with oil, salt, and pepper; roast at 425°F until tender."
-          },
-          {
-            "subtitle": "Plating and Presentation",
-            "content": "Arrange sandwich and side attractively on plate. Consider cutting sandwich to showcase layers. Add a small garnish if appropriate."
-          }
-        ]
-      }
-    ],
-    "practicalExercises": [
-      {
-        "title": "Dice Roll Mechanics"
-      }
-    ]
-  },
+  "id": 45,
+                "questName": "Simple Breakfast Challenge",
+                "rank": "Home Cook",
+                "type": "Main",
+                "primaryFocus": "Technique",
+                "secondaryFocus": "Management",
+                "primaryHours": 1.5,
+                "secondaryHours": 1,
+                "diceRequired": true,
+                "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
+                "stageId": 4,
+                "stageName": "Basic Sides & Components",
+                "learningObjectives": [
+                    "Master basic egg cookery techniques",
+                    "Develop timing skills for multiple breakfast components",
+                    "Practice heat control and ingredient preparation"
+                ],
+                "equipmentNeeded": [
+                    "Non-stick skillet or pan",
+                    "Toaster or oven",
+                    "Spatula",
+                    "Small bowl for egg beating (if applicable)",
+                    "Measuring cups and spoons",
+                    "Timer"
+                ],
+                "contentSections": [
+                    {
+                        "title": "Preparation Phase",
+                        "subsections": [
+                            {
+                                "subtitle": "Mise en Place",
+                                "content": "Gather all ingredients and equipment before beginning. Prepare your workspace with separate areas for each component. Pre-measure ingredients for each component. Roll dice to determine your specific breakfast components."
+                            },
+                            {
+                                "subtitle": "Component Planning",
+                                "content": "Read through all instructions for your specific roll combination. Create a timeline working backward from serving time. Identify which components take longest to cook and start with those."
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Cooking Phase",
+                        "subsections": [
+                            {
+                                "subtitle": "Egg Techniques",
+                                "content": "Sunny-side up: Heat pan to medium, add butter, crack egg, cook until white is set but yolk is runny. Over easy: Same as sunny-side up, but flip briefly to set top of white. Scrambled: Beat eggs with salt and pepper, cook in butter over medium-low heat, stirring frequently. Poached: Simmer water with vinegar, create gentle whirlpool, drop in egg, cook 3 minutes. Omelette: Beat eggs, pour into hot pan, add fillings, fold over when mostly set. Eggs Benedict: Poach eggs, prepare hollandaise sauce, serve on English muffin with ham."
+                            },
+                            {
+                                "subtitle": "Toast Variations",
+                                "content": "Regular toast: Toast bread, spread with butter. Avocado toast: Mash ripe avocado with lemon juice, salt, pepper; spread on toast. Cheese toast: Add cheese during last minute of toasting to melt. Cinnamon sugar toast: Mix cinnamon and sugar, spread butter on toast, sprinkle mixture. Garlic herb toast: Mix butter with minced garlic and herbs, spread on toast. French toast: Dip bread in egg/milk mixture, cook in pan until golden."
+                            },
+                            {
+                                "subtitle": "Side Dish Preparation",
+                                "content": "Fresh fruit: Wash and slice seasonal fruits. Yogurt with honey: Combine yogurt with honey and optional toppings. Roasted potatoes: Dice potatoes, toss with oil and seasonings, roast 20-25 minutes. Bacon/breakfast meat: Cook bacon or sausage until done to your liking. Sautéed vegetables: Sauté diced peppers, onions, mushrooms until tender. Overnight oats: Prepare the night before with oats, milk, and toppings."
+                            },
+                            {
+                                "subtitle": "Critical Timing Management",
+                                "content": "Start components in reverse order of cooking time. Coordinate cooking times so everything finishes simultaneously. Use the lower heat setting for eggs if other components need more attention. Keep toast warm in oven if needed while finishing other components."
+                            }
+                        ]
+                    }
+                ],
+                "practicalExercises": [
+                    {
+                        "title": "Dice Roll Mechanics",
+                        "steps": [
+                            "Roll for Soup Base Style (d6): 1-Clear broth-based, 2-Creamy (dairy or non-dairy), 3-Tomato-based, 4-Bean or lentil foundation, 5-Pureed vegetable, 6-Stew-like (thick with chunky components)",
+                            "Roll for Primary Protein (d6): 1-Chicken, 2-Beef or pork, 3-Seafood (fish, shrimp), 4-Beans or legumes, 5-Tofu or plant-based protein, 6-Multiple protein combination",
+                            "Roll for Flavor Direction (d6): 1-Classic European (French, Italian), 2-Asian (choose specific cuisine), 3-Latin American, 4-Mediterranean, 5-American regional (New England, Southern, etc.), 6-Seasonal harvest focus",
+                            "Roll for Special Addition (d6): 1-Grain or pasta component, 2-Herb or spice accent (unique flavor boost), 3-Creamy finish (yogurt, coconut milk, cream), 4-Crunchy topping (croutons, seeds, nuts), 5-Fresh herb or microgreen garnish, 6-Acidic finish (citrus, vinegar, pickled element)",
+                            "Prepare your hearty soup based on your rolls, following the techniques described in the content sections"
+                            "Roll for Egg Preparation Technique (d6): 1-Sunny-side up, 2-Over easy, 3-Scrambled, 4-Poached, 5-Omelette, 6-Eggs Benedict",
+                            "Roll for Toast Preparation (d6): 1-Regular toast with butter, 2-Avocado toast, 3-Cheese toast, 4-Cinnamon sugar toast, 5-Garlic herb toast, 6-French toast",
+                            "Roll for Side Dish (d6): 1-Fresh fruit, 2-Yogurt with honey, 3-Roasted potatoes, 4-Bacon or breakfast meat, 5-Sautéed vegetables, 6-Overnight oats",
+                            "Prepare your breakfast based on your rolls, following the techniques described in the content sections"
+                        ]
+                    }
+                ],
+                "completionChecklist": [
+                    "Aromatic base development",
+                    "Protein handling",
+                    "Liquid management",
+                    "Texture achievement",
+                    "Proper cooking methods",
+                    "Depth development",
+                    "Seasoning balance",
+                    "Flavor layering",
+                    "Complementary components",
+                    "Final taste adjustment"
+                    "Egg cookery execution (proper doneness, appearance)",
+                    "Toast preparation (properly toasted, not burnt)",
+                    "Side dish execution (properly cooked, seasoned)",
+                    "Mise en place organization",
+                    "Timing coordination (all components finished together)",
+                    "Kitchen cleanliness during process",
+                    "Stress management during multi-component cooking"
+                ],
+                "tipsForSuccess": [
+                    "Build flavor from the very beginning with proper aromatics",
+                    "Don't rush the base development - it's the foundation of your soup",
+                    "Season in layers throughout cooking",
+                    "Taste frequently and adjust as needed",
+                    "For clear soups, simmer gently; never boil vigorously",
+                    "Add acids (tomatoes, citrus, vinegar) after beans are tender",
+                    "Add dairy off heat or at very low temperatures",
+                    "For make-ahead: slightly undercook vegetables, they'll continue cooking when reheated",
+                    "Let soup rest 10-15 minutes before serving for flavors to meld",
+                    "Garnish just before serving for maximum visual impact and freshness"
+                    "Read all instructions before beginning",
+                    "Prepare all ingredients before starting to cook",
+                    "Use timers to keep track of multiple components",
+                    "Practice 'clean as you go' to maintain workspace",
+                    "For advanced egg techniques, consider practicing them separately before the full challenge"
+                ]
+            },
+            {
+                "id": 46,
+                "questName": "Basic Sandwich Lunch Challenge",
+                "rank": "Home Cook",
+                "type": "Main",
+                "primaryFocus": "Technique",
+                "secondaryFocus": "Management",
+                "primaryHours": 1.5,
+                "secondaryHours": 1,
+                "diceRequired": true,
+                "description": "Build flavor profiles and textures while learning proper sandwich construction techniques.",
+                "stageId": 4,
+                "stageName": "Basic Sides & Components",
+                "learningObjectives": [
+                    "Learn optimal ingredient layering and sandwich construction",
+                    "Develop knife skills for consistent cutting and preparation",
+                    "Balance flavors and textures across a complete meal",
+                    "Manage preparation of multiple components"
+                ],
+                "equipmentNeeded": [
+                    "Cutting board",
+                    "Chef's knife",
+                    "Serving plates",
+                    "Toaster (optional)",
+                    "Small bowls for mise en place",
+                    "Measuring spoons"
+                ],
+                "contentSections": [
+                    {
+                        "title": "Preparation Phase",
+                        "subsections": [
+                            {
+                                "subtitle": "Mise en Place",
+                                "content": "Roll your dice to determine your sandwich components. Gather all ingredients and equipment. Wash and prepare all vegetables and herbs. Set up a logical assembly area."
+                            },
+                            {
+                                "subtitle": "Component Planning",
+                                "content": "Prepare the side dish first if it requires cooking. Slice and organize all sandwich components before assembly. Consider toasting bread if appropriate for your combination."
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Sandwich Construction Technique",
+                        "subsections": [
+                            {
+                                "subtitle": "Foundation Layer",
+                                "content": "Apply spreads directly to both bread slices. If using mayonnaise, spread on both slices as a moisture barrier."
+                            },
+                            {
+                                "subtitle": "Structural Ingredients",
+                                "content": "Place sturdy ingredients like meat or cheese directly on bread. For leaf lettuce, place against spread to prevent soggy bread."
+                            },
+                            {
+                                "subtitle": "Middle Layer",
+                                "content": "Place tomatoes or wetter ingredients in the middle, between other ingredients. Season each layer with salt and pepper as you build."
+                            },
+                            {
+                                "subtitle": "Moisture Management",
+                                "content": "Pat wet ingredients dry with a paper towel before adding. If using avocado, place between meat and cheese to prevent oxidation. For very wet ingredients (like tomatoes), consider placing between cheese slices."
+                            },
+                            {
+                                "subtitle": "Final Assembly",
+                                "content": "Press gently to compact ingredients. Cut sandwich appropriately for the bread type (diagonal for square bread, straight for round). Secure with toothpick if necessary for tall sandwiches."
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Side Dish Preparation",
+                        "subsections": [
+                            {
+                                "subtitle": "Side Dish Options",
+                                "content": "Simple green salad: Toss greens with basic vinaigrette (3 parts oil to 1 part vinegar, salt, pepper). Potato chips: Serve alongside, or make quick homemade chips if ambitious. Fresh fruit: Wash and slice seasonal fruit. Quick pickled vegetables: Slice cucumber or radish, soak in vinegar, salt, and sugar for 15 minutes. Soup: Heat canned soup or prepare a simple 15-minute soup. Roasted vegetables: Toss vegetables with oil, salt, and pepper; roast at 425°F until tender."
+                            },
+                            {
+                                "subtitle": "Plating and Presentation",
+                                "content": "Arrange sandwich and side attractively on plate. Consider cutting sandwich to showcase layers. Add a small garnish if appropriate."
+                            }
+                        ]
+                    }
+                ],
+                "practicalExercises": [
+                    {
+                        "title": "Dice Roll Mechanics",
+                        "steps": [
+                            "Roll for Bread Type (d6): 1-White sandwich bread, 2-Whole grain bread, 3-Sourdough, 4-Ciabatta roll, 5-Baguette, 6-Pita or wrap",
+                            "Roll for Protein Component (d6): 1-Sliced deli turkey or ham, 2-Tuna salad, 3-Egg salad, 4-Sliced cheese (vegetarian), 5-Hummus (vegan), 6-Leftover roasted chicken or beef",
+                            "Roll for Flavor Profile (d6): 1-Classic (lettuce, tomato, mayo), 2-Mediterranean (olive oil, herbs, feta), 3-Spicy (hot sauce, jalapeños, spicy mayo), 4-Sweet & savory (fruit, honey, cheese), 5-Umami-focused (mushrooms, tomatoes, parmesan), 6-Herb-forward (fresh herbs, vinaigrette)",
+                            "Roll for Side Dish (d6): 1-Simple green salad, 2-Potato chips, 3-Fresh fruit, 4-Quick pickled vegetables, 5-Soup (canned or simple homemade), 6-Roasted vegetables",
+                            "Prepare your sandwich and side dish based on your rolls, following the techniques in the content sections"
+                        ]
+                    }
+                ],
+                "completionChecklist": [
+                    "Knife skills (even slicing, appropriate thickness)",
+                    "Sandwich construction (stable, doesn't fall apart)",
+                    "Moisture control (bread not soggy)",
+                    "Side dish execution",
+                    "Preparation sequence logic",
+                    "Workspace organization",
+                    "Efficiency of movement",
+                    "Meal balance (nutrition, flavor, texture)"
+                ],
+                "tipsForSuccess": [
+                    "Always toast bread if using wet ingredients",
+                    "Season each layer of the sandwich, not just the spread",
+                    "Cut ingredients to fit properly within the bread",
+                    "Think about texture contrast: crunchy with soft, creamy with firm",
+                    "Consider temperature: let hot ingredients cool slightly before assembly"
+                ]
+            },
   {
     "id": 47,
     "questName": "Easy Pasta Dinner Challenge",
