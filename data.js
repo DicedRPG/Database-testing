@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T08:34:02.319Z
+// Generated on 2025-04-01T12:00:00.000Z
 // Constants - Quest Types Colors
 const QUEST_TYPE_COLORS = {
     'Training': '#64D949', // Green
