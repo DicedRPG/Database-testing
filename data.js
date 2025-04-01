@@ -1522,19 +1522,20 @@ const QUEST_DATA = [
       "Create a 'meal idea bank' for inspiration"
     ]
   },
+
   {
   "id": 45,
-                "questName": "Simple Breakfast Challenge",
-                "rank": "Home Cook",
-                "type": "Main",
-                "primaryFocus": "Technique",
+    "questName": "Simple Breakfast Challenge",
+    "rank": "Home Cook",
+    "type": "Main",
+    "primaryFocus": "Technique",
                 "secondaryFocus": "Management",
                 "primaryHours": 1.5,
                 "secondaryHours": 1,
                 "diceRequired": true,
                 "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
-                "stageId": 4,
-                "stageName": "Basic Sides & Components",
+                "stageId": 1,
+                "stageName": "Kitchen Fundamentals",
                 "learningObjectives": [
                     "Master basic egg cookery techniques",
                     "Develop timing skills for multiple breakfast components",
@@ -1637,7 +1638,8 @@ const QUEST_DATA = [
                     "For advanced egg techniques, consider practicing them separately before the full challenge"
                 ]
             },
-            {
+           
+  {
                 "id": 46,
                 "questName": "Basic Sandwich Lunch Challenge",
                 "rank": "Home Cook",
@@ -1747,6 +1749,7 @@ const QUEST_DATA = [
                     "Consider temperature: let hot ingredients cool slightly before assembly"
                 ]
             },
+ 
   {
     "id": 47,
     "questName": "Easy Pasta Dinner Challenge",
