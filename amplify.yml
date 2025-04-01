@@ -1,0 +1,22 @@
+# amplify.yml
+version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        - echo "No build commands needed for static site"
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths: []
+  customHeaders:
+    - pattern: 'data.js'
+      headers:
+        - key: 'Cache-Control'
+          value: 'max-age=0, no-cache, no-store, must-revalidate'
+        - key: 'Pragma'
+          value: 'no-cache'
+        - key: 'Expires'
+          value: '0'
