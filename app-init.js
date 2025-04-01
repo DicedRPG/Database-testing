@@ -1,4 +1,28 @@
 // app-init.js - Initialize the app
+document.addEventListener('DOMContentLoaded', async function() {
+  console.log('Initializing application...');
+  
+  try {
+    // Initialize services first
+    await StateService.initialize();
+    await QuestService.initialize();
+    
+    // Migrate data if needed
+    await migrateOldData();
+    
+    // Initialize views
+    AttributeView.initialize();
+    
+    // Initialize controllers
+    QuestController.initialize();
+    
+    console.log('Application initialized successfully');
+  } catch (error) {
+    console.error('Error initializing application:', error);
+  }
+});
+
+// Function to migrate data from old system to new system
 async function migrateOldData() {
   console.log('Checking for data migration needs...');
   
