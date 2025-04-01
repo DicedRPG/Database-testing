@@ -67,6 +67,9 @@ const QuestController = {
   // Select a random quest
   async selectRandomQuest() {
     console.log('Selecting random quest...');
+
+    // Navigate to quest detail instead of directly showing it
+    Router.navigate('quest', quests[randomIndex].id);
     
     // Get state
     const state = StateService.getState();
@@ -235,9 +238,9 @@ const QuestController = {
       </div>
     `;
     
-    // Add event listener
+    // Add event listener to use Router
     document.getElementById('return-home')?.addEventListener('click', () => {
-      this.showQuestList();
+      Router.navigate('home');
     });
   },
   
