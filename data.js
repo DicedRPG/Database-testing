@@ -92,7 +92,7 @@ const LEVELS = [
   {
     "level": 9,
     "hours": 9,
-    "startAt": 
+    "startAt": 46
   }
 ];
 
@@ -1640,16 +1640,16 @@ const QUEST_DATA = [
   {
     "id": 46,
     "questName": "Basic Sandwich Lunch Challenge",
+    "description": "Build flavor profiles and textures while learning proper sandwich construction techniques.",
     "rank": "Home Cook",
+    "stageId": 1,
+    "stageName": "Kitchen Fundamentals",
     "type": "Main",
     "primaryFocus": "Technique",
-    "secondaryFocus": "Management",
     "primaryHours": 1.5,
+    "secondaryFocus": "Management",
     "secondaryHours": 1,
     "diceRequired": true,
-    "description": "Build flavor profiles and textures while learning proper sandwich construction techniques.",
-    "stageId": 4,
-    "stageName": "Basic Sides & Components",
     "learningObjectives": [
       "Learn optimal ingredient layering and sandwich construction",
       "Develop knife skills for consistent cutting and preparation",
@@ -1663,6 +1663,23 @@ const QUEST_DATA = [
       "Toaster (optional)",
       "Small bowls for mise en place",
       "Measuring spoons"
+    ],
+    "completionChecklist": [
+      "Knife skills (even slicing, appropriate thickness)",
+      "Sandwich construction (stable, doesn't fall apart)",
+      "Moisture control (bread not soggy)",
+      "Side dish execution",
+      "Preparation sequence logic",
+      "Workspace organization",
+      "Efficiency of movement",
+      "Meal balance (nutrition, flavor, texture)"
+    ],
+    "tipsForSuccess": [
+      "Always toast bread if using wet ingredients",
+      "Season each layer of the sandwich, not just the spread",
+      "Cut ingredients to fit properly within the bread",
+      "Think about texture contrast: crunchy with soft, creamy with firm",
+      "Consider temperature: let hot ingredients cool slightly before assembly"
     ],
     "contentSections": [
       {
@@ -1719,32 +1736,8 @@ const QUEST_DATA = [
     ],
     "practicalExercises": [
       {
-        "title": "Dice Roll Mechanics",
-        "steps": [
-          "Roll for Bread Type (d6): 1-White sandwich bread, 2-Whole grain bread, 3-Sourdough, 4-Ciabatta roll, 5-Baguette, 6-Pita or wrap",
-          "Roll for Protein Component (d6): 1-Sliced deli turkey or ham, 2-Tuna salad, 3-Egg salad, 4-Sliced cheese (vegetarian), 5-Hummus (vegan), 6-Leftover roasted chicken or beef",
-          "Roll for Flavor Profile (d6): 1-Classic (lettuce, tomato, mayo), 2-Mediterranean (olive oil, herbs, feta), 3-Spicy (hot sauce, jalapeños, spicy mayo), 4-Sweet & savory (fruit, honey, cheese), 5-Umami-focused (mushrooms, tomatoes, parmesan), 6-Herb-forward (fresh herbs, vinaigrette)",
-          "Roll for Side Dish (d6): 1-Simple green salad, 2-Potato chips, 3-Fresh fruit, 4-Quick pickled vegetables, 5-Soup (canned or simple homemade), 6-Roasted vegetables",
-          "Prepare your sandwich and side dish based on your rolls, following the techniques in the content sections"
-        ]
+        "title": "Dice Roll Mechanics"
       }
-    ],
-    "completionChecklist": [
-      "Knife skills (even slicing, appropriate thickness)",
-      "Sandwich construction (stable, doesn't fall apart)",
-      "Moisture control (bread not soggy)",
-      "Side dish execution",
-      "Preparation sequence logic",
-      "Workspace organization",
-      "Efficiency of movement",
-      "Meal balance (nutrition, flavor, texture)"
-    ],
-    "tipsForSuccess": [
-      "Always toast bread if using wet ingredients",
-      "Season each layer of the sandwich, not just the spread",
-      "Cut ingredients to fit properly within the bread",
-      "Think about texture contrast: crunchy with soft, creamy with firm",
-      "Consider temperature: let hot ingredients cool slightly before assembly"
     ]
   },
   {
