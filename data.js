@@ -100,7 +100,7 @@ const LEVELS = [
 const QUEST_DATA = [
   {
     "id": 1,
-    "questName": "Kitchen Safety & testing1",
+    "questName": "Kitchen Safety & Cleaning",
     "rank": "Home Cook",
     "type": "Training",
     "primaryFocus": "Management",
