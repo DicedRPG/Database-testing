@@ -6,6 +6,7 @@ class QuestDatabase {
         this.STORAGE_KEY = 'diced_rpg_quests';
         this.quests = [];
         this.initialized = false;
+        this.callbacks = [];
     }
 
     // Initialize the database
@@ -47,6 +48,48 @@ class QuestDatabase {
             console.error('Failed to save quests to storage:', error);
             return false;
         }
+    }
+    
+    // Load quests from localStorage
+    loadFromStorage() {
+        try {
+            const savedQuests = localStorage.getItem(this.STORAGE_KEY);
+            
+            if (savedQuests) {
+                this.quests = JSON.parse(savedQuests);
+                console.log(`Reloaded ${this.quests.length} quests from storage`);
+                
+                // Notify all registered callbacks about data change
+                this._notifyDataChanged();
+                
+                return true;
+            }
+            
+            return false;
+        } catch (error) {
+            console.error('Failed to load quests from storage:', error);
+            return false;
+        }
+    }
+    
+    // Register a callback to be notified when data changes
+    onDataChanged(callback) {
+        if (typeof callback === 'function') {
+            this.callbacks.push(callback);
+            return true;
+        }
+        return false;
+    }
+    
+    // Notify all callbacks about data change
+    _notifyDataChanged() {
+        this.callbacks.forEach(callback => {
+            try {
+                callback();
+            } catch (error) {
+                console.error('Error in data change callback:', error);
+            }
+        });
     }
     
     // Get all quests
@@ -109,6 +152,7 @@ class QuestDatabase {
         
         this.quests.push(quest);
         this.saveToStorage();
+        this._notifyDataChanged();
         return quest;
     }
     
@@ -124,6 +168,7 @@ class QuestDatabase {
         
         this.quests[index] = updatedQuest;
         this.saveToStorage();
+        this._notifyDataChanged();
         return updatedQuest;
     }
     
@@ -136,6 +181,7 @@ class QuestDatabase {
         
         this.quests.splice(index, 1);
         this.saveToStorage();
+        this._notifyDataChanged();
         return true;
     }
     
@@ -150,6 +196,7 @@ class QuestDatabase {
             await this.initialize();
             this.quests = newQuests;
             this.saveToStorage();
+            this._notifyDataChanged();
             return this.quests.length;
         } catch (error) {
             console.error('Failed to import quests:', error);
@@ -192,110 +239,3 @@ class QuestDatabase {
 
 // Create a singleton instance
 const questDatabase = new QuestDatabase();
-
-// Add this to your database-service.js file
-
-// Override the local storage loading with Amplify latest version
-const originalLoadFromStorage = questDatabase.loadFromStorage;
-
-questDatabase.loadFromStorage = function() {
-  console.log('Loading quest data from Amplify hosting...');
-  
-  // Add a timestamp to prevent caching
-  fetch('data.js?t=' + new Date().getTime())
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data.js: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then(jsContent => {
-      // Execute the JavaScript to get QUEST_DATA
-      // This is safe because the data is from your own server
-      try {
-        // First, clear any existing QUEST_DATA
-        window.QUEST_DATA = [];
-        
-        // Create a function to safely execute the data.js content
-        const executeScript = new Function(jsContent);
-        executeScript();
-        
-        // Check if QUEST_DATA was populated
-        if (window.QUEST_DATA && window.QUEST_DATA.length > 0) {
-          console.log(`Loaded ${window.QUEST_DATA.length} quests from Amplify hosting`);
-          
-          // Update localStorage with the fresh data
-          localStorage.setItem('diced_rpg_quests', JSON.stringify(window.QUEST_DATA));
-          
-          // Now load from local storage as usual
-          originalLoadFromStorage.call(this);
-          
-          // Show a small notification if quests were updated
-          showUpdateNotification();
-        } else {
-          console.warn('QUEST_DATA was not populated from data.js, falling back to localStorage');
-          originalLoadFromStorage.call(this);
-        }
-      } catch (error) {
-        console.error('Error executing data.js:', error);
-        console.warn('Falling back to localStorage');
-        originalLoadFromStorage.call(this);
-      }
-    })
-    .catch(error => {
-      console.error('Error loading data.js:', error);
-      console.warn('Falling back to localStorage');
-      originalLoadFromStorage.call(this);
-    });
-    
-  // Return immediately, the actual data will be loaded asynchronously
-  // We'll still use localStorage as the initial source
-  return originalLoadFromStorage.call(this);
-};
-
-// Simple notification helper
-function showUpdateNotification() {
-  // Only show if we haven't shown it recently
-  const lastNotificationTime = localStorage.getItem('last_update_notification');
-  if (lastNotificationTime && (Date.now() - parseInt(lastNotificationTime)) < 86400000) {
-    // Don't show more than once per day
-    return;
-  }
-  
-  // Create notification element
-  const notification = document.createElement('div');
-  notification.style.position = 'fixed';
-  notification.style.bottom = '20px';
-  notification.style.right = '20px';
-  notification.style.backgroundColor = '#4A2A1B';
-  notification.style.color = 'white';
-  notification.style.padding = '15px';
-  notification.style.borderRadius = '5px';
-  notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-  notification.style.zIndex = '1000';
-  notification.innerHTML = `
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-      <span style="margin-right: 15px;">Quest data has been updated!</span>
-      <button style="background: none; border: none; color: white; cursor: pointer; font-size: 16px;">&times;</button>
-    </div>
-  `;
-  
-  // Add to page
-  document.body.appendChild(notification);
-  
-  // Add close handler
-  const closeButton = notification.querySelector('button');
-  closeButton.addEventListener('click', function() {
-    document.body.removeChild(notification);
-  });
-  
-  // Remove after 5 seconds
-  setTimeout(function() {
-    if (notification.parentNode) {
-      document.body.removeChild(notification);
-    }
-  }, 5000);
-  
-  // Store notification time
-  localStorage.setItem('last_update_notification', Date.now().toString());
-}
