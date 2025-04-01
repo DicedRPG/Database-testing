@@ -1,4 +1,4 @@
-// Generated on 2025-03-31T20:34:02.319Z
+// Generated on 2025-04-01T08:34:02.319Z
 // Constants - Quest Types Colors
 const QUEST_TYPE_COLORS = {
     'Training': '#64D949', // Green
@@ -34,7 +34,7 @@ const LEVELS = [
 const QUEST_DATA = [
   {
     "id": 1,
-    "questName": "Kitchen Safety & testing",
+    "questName": "Kitchen Safety & testing1",
     "rank": "Home Cook",
     "type": "Training",
     "primaryFocus": "Management",
