@@ -81,44 +81,44 @@ const AttributeView = {
   
   // Calculate level for an attribute
   calculateLevel(totalHours) {
-    // Find current rank
-    let currentRank = RANKS[RANKS.length - 1];
-    for (const rank of RANKS) {
-      if (totalHours < rank.hoursNeeded) {
-        currentRank = rank;
-        break;
-      }
+  // Find current rank
+  let currentRank = ConfigService.RANKS[ConfigService.RANKS.length - 1];
+  for (const rank of ConfigService.RANKS) {
+    if (totalHours < rank.hoursNeeded) {
+      currentRank = rank;
+      break;
     }
+  }
     
     // Find level within rank
-    for (let i = 0; i < LEVELS.length; i++) {
-      const level = LEVELS[i];
-      const nextLevel = LEVELS[i + 1];
+  for (let i = 0; i < ConfigService.LEVELS.length; i++) {
+    const level = ConfigService.LEVELS[i];
+    const nextLevel = ConfigService.LEVELS[i + 1];
+    
+    if (!nextLevel || totalHours < nextLevel.startAt) {
+      const hoursIntoLevel = totalHours - level.startAt;
       
-      if (!nextLevel || totalHours < nextLevel.startAt) {
-        const hoursIntoLevel = totalHours - level.startAt;
-        
-        return {
-          level: level.level,
-          currentLevelHours: hoursIntoLevel,
-          hoursForLevel: level.hours,
-          totalHours: totalHours,
-          rank: currentRank.name,
-          color: currentRank.color
-        };
-      }
+      return {
+        level: level.level,
+        currentLevelHours: hoursIntoLevel,
+        hoursForLevel: level.hours,
+        totalHours: totalHours,
+        rank: currentRank.name,
+        color: currentRank.color
+      };
     }
+  }
     
     // Default to last level if not found
-    const lastLevel = LEVELS[LEVELS.length - 1];
-    return {
-      level: lastLevel.level,
-      currentLevelHours: totalHours - lastLevel.startAt,
-      hoursForLevel: lastLevel.hours,
-      totalHours: totalHours,
-      rank: currentRank.name,
-      color: currentRank.color
-    };
+  const lastLevel = ConfigService.LEVELS[ConfigService.LEVELS.length - 1];
+  return {
+    level: lastLevel.level,
+    currentLevelHours: totalHours - lastLevel.startAt,
+    hoursForLevel: lastLevel.hours,
+    totalHours: totalHours,
+    rank: currentRank.name,
+    color: currentRank.color
+  };
   },
   
   // Calculate overall rank
