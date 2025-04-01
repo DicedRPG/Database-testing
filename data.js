@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T14:23:12.044Z
+// Generated on 2025-04-01T14:24:12.044Z
 // Total quests: 29
 const QUEST_TYPE_COLORS = {
   "Training": "#64D949",
@@ -100,7 +100,7 @@ const LEVELS = [
 const QUEST_DATA = [
   {
     "id": 1,
-    "questName": "Kitchen Safety & Cleaning",
+    "questName": "Kitchen Safety & Test Again",
     "rank": "Home Cook",
     "type": "Training",
     "primaryFocus": "Management",
