@@ -180,7 +180,7 @@ const Router = {
     // Show quest detail
     QuestController.showQuestDetail(id);
 
-    / Add this: Scroll to the top of the page
+    // Add this: Scroll to the top of the page
   window.scrollTo({
     top: 0,
     behavior: 'smooth' // Use 'auto' for instant scrolling instead of smooth animation
