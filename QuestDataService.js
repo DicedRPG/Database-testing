@@ -7,6 +7,7 @@
  * 2. Storing updated quest data in localStorage
  * 3. Notifying the app when updates are available
  * 4. Providing a manual update mechanism
+ * 5. Automatically refreshing the UI when updates occur
  */
 const QuestDataService = {
   // Storage keys
@@ -78,9 +79,11 @@ const QuestDataService = {
       
       // Get current version
       const currentVersion = this.currentVersion;
+      console.log('Current version:', currentVersion);
       
       // Add cache-busting parameter to URL
-      const url = `${this.CDN_URL}?t=${now}`;
+      const url = `${this.CDN_URL}?nocache=${Math.random()}&t=${now}`;
+      console.log('Checking URL:', url);
       
       // Fetch latest quest data
       const response = await fetch(url);
@@ -91,6 +94,8 @@ const QuestDataService = {
       }
       
       const data = await response.json();
+      console.log('Data received:', data);
+      console.log('New version from server:', data.version);
       
       // Check if data has the expected structure
       if (!data.version || !Array.isArray(data.quests)) {
@@ -100,7 +105,9 @@ const QuestDataService = {
       
       // Compare versions (simple string comparison works for semver)
       if (data.version > currentVersion) {
-        console.log(`New quest data found (v${currentVersion} → v${data.version})`);
+        console.log(`Quest data updated from ${currentVersion} to ${data.version}`);
+        console.log(`Updated quests count: ${data.quests.length}`);
+        console.log(`First quest in new data: ${data.quests[0].questName}`);
         
         // Store new quest data
         localStorage.setItem(this.DATA_KEY, JSON.stringify(data.quests));
@@ -140,56 +147,104 @@ const QuestDataService = {
     }
   },
   
-  // Show notification about the update
+  // Show notification about the update and trigger UI refresh
   showUpdateNotification(version) {
-    // Use NotificationService if available
+    // First, show notification using NotificationService
     if (window.NotificationService) {
-      NotificationService.success(`Quest data updated to version ${version}!`);
-      return;
+      NotificationService.success(`Quest data updated to version ${version}! Refreshing content...`);
+    } else {
+      // Simple notification fallback
+      const notification = document.createElement('div');
+      notification.className = 'notification update-notification';
+      notification.style.position = 'fixed';
+      notification.style.top = '20px';  // Notice at top for better visibility
+      notification.style.right = '20px';
+      notification.style.backgroundColor = '#A2BC58';
+      notification.style.color = 'white';
+      notification.style.padding = '15px';
+      notification.style.borderRadius = '5px';
+      notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+      notification.style.zIndex = '1000';
+      notification.style.display = 'flex';
+      notification.style.alignItems = 'center';
+      notification.style.justifyContent = 'space-between';
+      notification.style.maxWidth = '300px';
+      
+      notification.innerHTML = `
+        <div style="margin-right: 15px;">
+          <p style="margin: 0; font-weight: bold;">Quest data updated!</p>
+          <p style="margin: 5px 0 0 0; font-size: 14px;">New version: ${version}</p>
+        </div>
+        <button style="background: none; border: none; color: white; cursor: pointer; font-size: 20px; font-weight: bold; padding: 0 5px;">&times;</button>
+      `;
+      
+      // Add to page
+      document.body.appendChild(notification);
+      
+      // Add close handler
+      const closeButton = notification.querySelector('button');
+      closeButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.body.removeChild(notification);
+      });
+      
+      // Remove after 30 seconds
+      setTimeout(function() {
+        if (notification.parentNode) {
+          document.body.removeChild(notification);
+        }
+      }, 30000);
     }
     
-    // Simple notification fallback
-    const notification = document.createElement('div');
-    notification.className = 'notification update-notification';
-    notification.style.position = 'fixed';
-    notification.style.top = '20px';  // Notice at top for better visibility
-    notification.style.right = '20px';
-    notification.style.backgroundColor = '#A2BC58';
-    notification.style.color = 'white';
-    notification.style.padding = '15px';
-    notification.style.borderRadius = '5px';
-    notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-    notification.style.zIndex = '1000';
-    notification.style.display = 'flex';
-    notification.style.alignItems = 'center';
-    notification.style.justifyContent = 'space-between';
-    notification.style.maxWidth = '300px';
+    // Then trigger a comprehensive UI refresh
+    this.triggerFullUIRefresh();
+  },
+  
+  // Trigger a full UI refresh after data update
+  triggerFullUIRefresh() {
+    // First, refresh quest list if that view is available
+    if (window.QuestListView && typeof window.QuestListView.updateQuestList === 'function') {
+      window.QuestListView.updateQuestList();
+    }
     
-    notification.innerHTML = `
-      <div style="margin-right: 15px;">
-        <p style="margin: 0; font-weight: bold;">Quest data updated!</p>
-        <p style="margin: 5px 0 0 0; font-size: 14px;">New version: ${version}</p>
-      </div>
-      <button style="background: none; border: none; color: white; cursor: pointer; font-size: 20px; font-weight: bold; padding: 0 5px;">&times;</button>
-    `;
+    // Then, update quest filters
+    if (window.QuestListView && typeof window.QuestListView.updateFilters === 'function') {
+      window.QuestListView.updateFilters();
+    }
     
-    // Add to page
-    document.body.appendChild(notification);
-    
-    // Add close handler
-    const closeButton = notification.querySelector('button');
-    closeButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      document.body.removeChild(notification);
-    });
-    
-    // Remove after 30 seconds
-    setTimeout(function() {
-      if (notification.parentNode) {
-        document.body.removeChild(notification);
+    // Update the current quest detail if we're viewing a quest
+    const state = window.StateService?.getState();
+    if (state && state.ui && state.ui.currentView === 'detail' && state.quests && state.quests.currentQuestId) {
+      if (window.QuestDetailView && typeof window.QuestDetailView.render === 'function') {
+        window.QuestDetailView.render(state.quests.currentQuestId);
       }
-    }, 30000);
+    }
+    
+    // Refresh attribute displays if they're using quest data
+    if (window.AttributeView && typeof window.AttributeView.updateDisplay === 'function') {
+      window.AttributeView.updateDisplay();
+    }
+    
+    console.log('Automatically refreshed UI after quest data update');
+    
+    // Option 1: For more drastic UI refresh, uncomment this code:
+    /*
+    setTimeout(() => {
+      // Ask user if they want to refresh the page for latest changes
+      if (confirm('Quest data has been updated. Reload page to ensure all changes are applied?')) {
+        window.location.reload();
+      }
+    }, 1000);
+    */
+    
+    // Option 2: For automatic page refresh without confirmation, uncomment this code:
+    /*
+    setTimeout(() => {
+      console.log('Automatically reloading page to apply all quest data changes...');
+      window.location.reload();
+    }, 2000); // 2-second delay to show notification first
+    */
   },
   
   // Force an immediate update check (for manual refresh)
@@ -202,6 +257,14 @@ const QuestDataService = {
     }
     
     return updated;
+  },
+  
+  // Force reset version tracking (for debugging)
+  forceReset() {
+    localStorage.removeItem(this.VERSION_KEY);
+    localStorage.removeItem(this.LAST_CHECK_KEY);
+    console.log('Reset quest data version tracking');
+    return this.forceUpdate();
   },
   
   // Create refresh button UI
