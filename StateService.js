@@ -180,5 +180,24 @@ const StateService = {
     this.initialize();  
     this._notifyListeners();  
     return this._state;  
-  }  
+  },
+
+  // Replace state with imported data
+replaceState(importedState) {
+  console.log('Replacing state with imported data');
+  
+  // Make a deep copy of the imported state
+  this._state = JSON.parse(JSON.stringify(importedState));
+  
+  // Update timestamp
+  this._state.user.lastUpdate = new Date().toISOString();
+  
+  // Notify listeners
+  this._notifyListeners();
+  
+  // Save to storage
+  this._saveToStorage();
+  
+  return this._state;
+}
 };
