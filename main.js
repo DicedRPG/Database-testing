@@ -19,10 +19,17 @@
     // Step 5: Initialize router (last so everything else is ready)
     Router.initialize();
     
+    // Step 6: Set up mobile menu functionality
+    setupMobileNavigation();
+    
     console.log('Diced RPG Companion: Initialization complete');
   } catch (error) {
     console.error('Diced RPG Companion: Initialization failed:', error);
-    NotificationService.error('Application failed to initialize properly. Please refresh the page.');
+    if (window.NotificationService) {
+      NotificationService.error('Application failed to initialize properly. Please refresh the page.');
+    } else {
+      alert('Application failed to initialize properly. Please refresh the page.');
+    }
   }
   
   // Function to migrate data from old system to new system
@@ -63,9 +70,6 @@
         }
         
         console.log('Data migration complete');
-        
-        // Consider removing old data after successful migration
-        // localStorage.removeItem('diced_rpg_state');
       } catch (error) {
         console.error('Error migrating old data:', error);
       }
@@ -73,28 +77,55 @@
       console.log('No old data found, migration not needed');
     }
   }
-  // start of new code
-  // Set up mobile menu toggle
-document.getElementById('menu-toggle')?.addEventListener('click', () => {
-  document.querySelector('.main-nav').classList.toggle('open');
-});
-
-// Close menu when clicking elsewhere
-document.addEventListener('click', (event) => {
-  const menuToggle = document.getElementById('menu-toggle');
-  const mainNav = document.querySelector('.main-nav');
   
-  // If click is outside menu and toggle, close menu
-  if (menuToggle && mainNav && mainNav.classList.contains('open') && 
-      !menuToggle.contains(event.target) && !mainNav.contains(event.target)) {
-    mainNav.classList.remove('open');
+  // Function to set up mobile navigation
+  function setupMobileNavigation() {
+    // Get elements
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    
+    if (!menuToggle || !mainNav) {
+      console.warn('Mobile navigation elements not found');
+      return;
+    }
+    
+    console.log('Setting up mobile navigation');
+    
+    // Toggle menu on button click
+    menuToggle.addEventListener('click', (event) => {
+      event.stopPropagation(); // Prevent bubbling to document click handler
+      mainNav.classList.toggle('open');
+      console.log('Menu toggled:', mainNav.classList.contains('open'));
+    });
+    
+    // Close menu when clicking elsewhere
+    document.addEventListener('click', (event) => {
+      // If click is outside menu and toggle, close menu
+      if (mainNav.classList.contains('open') && 
+          !menuToggle.contains(event.target) && 
+          !mainNav.contains(event.target)) {
+        mainNav.classList.remove('open');
+        console.log('Menu closed from outside click');
+      }
+    });
+    
+    // Close menu when a nav button is clicked
+    document.querySelectorAll('.main-nav .nav-button').forEach(button => {
+      button.addEventListener('click', () => {
+        mainNav.classList.remove('open');
+        console.log('Menu closed from nav button click');
+      });
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      // Close mobile menu if window is resized to desktop size
+      if (window.innerWidth > 768 && mainNav.classList.contains('open')) {
+        mainNav.classList.remove('open');
+        console.log('Menu closed from window resize');
+      }
+    });
+    
+    console.log('Mobile navigation setup complete');
   }
-});
-
-// Close menu when a nav button is clicked
-document.querySelectorAll('.nav-button').forEach(button => {
-  button.addEventListener('click', () => {
-    document.querySelector('.main-nav')?.classList.remove('open');
-  });
-  //end of new code
 })();
