@@ -1,10 +1,13 @@
-// Router.js - Simple navigation system
+// Router.js - Enhanced navigation system
 const Router = {
   // Routes configuration
   routes: {},
   
   // Current route
   currentRoute: null,
+  
+  // Route history
+  history: [],
   
   // Initialize the router
   initialize() {
@@ -22,6 +25,13 @@ const Router = {
     
     // Listen for hash changes
     window.addEventListener('hashchange', () => this.handleRouteChange());
+    
+    // Set up back button functionality
+    document.querySelectorAll('#universal-back-button').forEach(button => {
+      button.addEventListener('click', () => {
+        window.history.back();
+      });
+    });
     
     console.log('Router initialized');
   },
@@ -50,14 +60,28 @@ const Router = {
     
     console.log(`Route changed: ${route}, params: ${params.join(', ')}`);
     
+    // Check route permission
+    if (!this.checkRoutePermission(route, params)) {
+      return;
+    }
+    
     // Find handler for this route
     const handler = this.routes[route];
     
     if (handler) {
       this.currentRoute = route;
       
+      // Update active navigation buttons
+      this.updateActiveNavButtons(route);
+      
+      // Show loading indicators
+      this.showLoadingIndicators();
+      
       // Call the handler with parameters
       handler(...params);
+      
+      // Add to history
+      this.addToHistory(route, params);
     } else {
       console.warn(`No handler for route: ${route}`);
       // Default to home
@@ -65,9 +89,39 @@ const Router = {
     }
   },
   
+  // Check if route is allowed
+  checkRoutePermission(route, params) {
+    // Check if quest exists before navigating to quest detail
+    if (route === 'quest' && params.length > 0) {
+      const questId = parseInt(params[0]);
+      
+      // For immediate feedback, check if quest exists in QUEST_DATA
+      // In a full implementation, this would use QuestService.getQuestById
+      const quest = QUEST_DATA.find(q => q.id === questId);
+      if (!quest) {
+        // Quest not found, redirect to home
+        this.navigate('home');
+        // Use notification service if available
+        if (window.NotificationService) {
+          NotificationService.error(`Quest #${questId} not found.`);
+        } else {
+          alert(`Quest #${questId} not found.`);
+        }
+        return false;
+      }
+    }
+    
+    return true;
+  },
+  
   // Navigate to a route
   navigate(route, ...params) {
     console.log(`Navigating to: ${route}, params: ${params.join(', ')}`);
+    
+    // Check route permission first
+    if (!this.checkRoutePermission(route, params)) {
+      return;
+    }
     
     // Build URL hash
     let hash = route;
@@ -76,8 +130,32 @@ const Router = {
       hash += '/' + params.join('/');
     }
     
-    // Update URL
-    window.location.hash = hash;
+    // Add state object
+    const state = {
+      route: route,
+      params: params,
+      timestamp: new Date().getTime()
+    };
+    
+    // Update browser history
+    if (window.location.hash.substring(1) !== hash) {
+      window.history.pushState(state, '', '#' + hash);
+      this.handleRouteChange();
+    }
+  },
+  
+  // Add to route history
+  addToHistory(route, params) {
+    this.history.push({
+      route,
+      params,
+      timestamp: new Date().getTime()
+    });
+    
+    // Keep history at a reasonable size
+    if (this.history.length > 20) {
+      this.history.shift();
+    }
   },
   
   // Show home page
@@ -112,6 +190,14 @@ const Router = {
     // TODO: Implement settings page
   },
   
+  // Helper to show loading indicators
+  showLoadingIndicators() {
+    // Show all loading spinners
+    document.querySelectorAll('.loading-spinner').forEach(spinner => {
+      spinner.style.display = 'block';
+    });
+  },
+  
   // Helper to show a container and hide others
   showContainer(containerId) {
     // Hide all containers
@@ -123,6 +209,26 @@ const Router = {
     const container = document.getElementById(containerId);
     if (container) {
       container.classList.remove('hidden');
+      
+      // Hide loading spinner for this container
+      const spinner = container.querySelector('.loading-spinner');
+      if (spinner) {
+        spinner.style.display = 'none';
+      }
+    }
+  },
+  
+  // Update active navigation buttons
+  updateActiveNavButtons(route) {
+    // Remove active class from all nav buttons
+    document.querySelectorAll('.nav-button').forEach(button => {
+      button.classList.remove('active');
+    });
+    
+    // Add active class to current route button
+    const activeButton = document.querySelector(`[data-route="${route}"]`);
+    if (activeButton) {
+      activeButton.classList.add('active');
     }
   }
 };
