@@ -779,3 +779,29 @@
 .breadcrumbs a:hover {
   text-decoration: underline;
 }
+
+/* Universal Back Button */
+.back-nav {
+  margin: 10px 0;
+}
+
+.back-nav button {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-nav button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.back-nav svg {
+  fill: white;
+  margin-right: 5px;
+}
