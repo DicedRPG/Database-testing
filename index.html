@@ -276,19 +276,18 @@
     
     <!-- Initialize the app -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize the app controller
-            appController.initialize();
-            
-            // Add event listeners for navigation
-            document.getElementById('nav-home')?.addEventListener('click', () => {
-                router.navigate('home');
-            });
-            
-            document.getElementById('nav-settings')?.addEventListener('click', () => {
-                router.navigate('settings');
-            });
+    document.addEventListener('DOMContentLoaded', () => {
+        // Add event listeners for navigation
+        document.getElementById('nav-home')?.addEventListener('click', () => {
+            // Use capital R for Router object
+            Router.navigate('home');
         });
+        
+        document.getElementById('nav-settings')?.addEventListener('click', () => {
+            // Use capital R for Router object
+            Router.navigate('settings');
+        });
+    });
     </script>
 </body>
 </html>
