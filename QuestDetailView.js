@@ -26,9 +26,7 @@ const QuestDetailView = {
       
       // Add back button handler
       document.getElementById('back-to-quest-list')?.addEventListener('click', () => {
-        StateService.updateState('ui.currentView', 'list');
-        document.getElementById('quest-list').classList.remove('hidden');
-        container.classList.add('hidden');
+        Router.navigate('home');
       });
       
       return;
