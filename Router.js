@@ -61,6 +61,7 @@ const Router = {
     console.log(`Route changed: ${route}, params: ${params.join(', ')}`);
     
     // Check route permission
+    // Confirm this later
     if (!this.checkRoutePermission(route, params)) {
       return;
     }
