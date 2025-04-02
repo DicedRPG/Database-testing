@@ -159,109 +159,111 @@ if (questNameElement && quest) {
     
     let html = '<div class="detailed-quest-content">';
     
-    // Learning Objectives
-    if (quest.learningObjectives && quest.learningObjectives.length > 0) {
-      html += `
-        <div class="quest-section">
-          <h3 class="section-header">Learning Objectives</h3>
-          <div class="section-content">
-            <ul class="objective-list">
-              ${quest.learningObjectives.map(obj => `<li>${obj}</li>`).join('')}
-            </ul>
-          </div>
+    // Learning Objectives - Add null check
+  if (quest.learningObjectives && Array.isArray(quest.learningObjectives) && quest.learningObjectives.length > 0) {
+    html += `
+      <div class="quest-section">
+        <h3 class="section-header">Learning Objectives</h3>
+        <div class="section-content">
+          <ul class="objective-list">
+            ${quest.learningObjectives.map(obj => `<li>${obj}</li>`).join('')}
+          </ul>
         </div>
-      `;
-    }
+      </div>
+    `;
+  }
     
-    // Equipment Needed
-    if (quest.equipmentNeeded && quest.equipmentNeeded.length > 0) {
-      html += `
-        <div class="quest-section">
-          <h3 class="section-header">Equipment Needed</h3>
-          <div class="section-content">
-            <ul class="equipment-list">
-              ${quest.equipmentNeeded.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
+    // Equipment Needed - Add null check
+  if (quest.equipmentNeeded && Array.isArray(quest.equipmentNeeded) && quest.equipmentNeeded.length > 0) {
+    html += `
+      <div class="quest-section">
+        <h3 class="section-header">Equipment Needed</h3>
+        <div class="section-content">
+          <ul class="equipment-list">
+            ${quest.equipmentNeeded.map(item => `<li>${item}</li>`).join('')}
+          </ul>
         </div>
-      `;
-    }
+      </div>
+    `;
+  }
     
-    // Content Sections
-    if (quest.contentSections && quest.contentSections.length > 0) {
-      html += `
-        <div class="quest-section">
-          <h3 class="section-header">Instructions</h3>
-          <div class="section-content">
-            ${quest.contentSections.map(section => `
-              <div class="content-section">
-                <h4 class="content-section-title">${section.title}</h4>
-                ${section.subsections.map(subsection => `
+    // Content Sections - Add null checks for nested properties
+  if (quest.contentSections && Array.isArray(quest.contentSections) && quest.contentSections.length > 0) {
+    html += `
+      <div class="quest-section">
+        <h3 class="section-header">Instructions</h3>
+        <div class="section-content">
+          ${quest.contentSections.map(section => `
+            <div class="content-section">
+              <h4 class="content-section-title">${section.title || 'Untitled'}</h4>
+              ${Array.isArray(section.subsections) ? 
+                section.subsections.map(subsection => `
                   <div class="content-subsection">
-                    <h5 class="subsection-title">${subsection.subtitle}</h5>
+                    <h5 class="subsection-title">${subsection.subtitle || 'Untitled'}</h5>
                     <div class="subsection-content">
-                      <p>${subsection.content}</p>
+                      <p>${subsection.content || ''}</p>
                     </div>
                   </div>
-                `).join('')}
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
-    
-    // Practical Exercises
-    if (quest.practicalExercises && quest.practicalExercises.length > 0) {
-      html += `
-        <div class="quest-section">
-          <h3 class="section-header">Practical Exercises</h3>
-          <div class="section-content">
-            ${quest.practicalExercises.map(exercise => `
-              <div class="exercise">
-                <h4 class="exercise-title">${exercise.title}</h4>
-                <ol class="exercise-steps">
-                  ${exercise.steps.map(step => `<li>${step}</li>`).join('')}
-                </ol>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
-    
-    // Tips for Success
-    if (quest.tipsForSuccess && quest.tipsForSuccess.length > 0) {
-      html += `
-        <div class="quest-section">
-          <h3 class="section-header">Tips for Success</h3>
-          <div class="section-content">
-            <ul class="tips-list">
-              ${quest.tipsForSuccess.map(tip => `<li>${tip}</li>`).join('')}
-            </ul>
-          </div>
-        </div>
-      `;
-    }
-    
-    // Completion Checklist
-    if (quest.completionChecklist && quest.completionChecklist.length > 0) {
-      html += `
-        <div class="quest-section">
-          <h3 class="section-header">Completion Checklist</h3>
-          <div class="section-content">
-            <div class="checklist">
-              ${quest.completionChecklist.map(item => `
-                <div class="checklist-item">
-                  <input type="checkbox" id="check-${item.replace(/\s+/g, '-')}" class="checklist-checkbox">
-                  <label for="check-${item.replace(/\s+/g, '-')}">${item}</label>
-                </div>
-              `).join('')}
+                `).join('') : ''}
             </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+    
+    // Practical Exercises - Add null check
+  if (quest.practicalExercises && Array.isArray(quest.practicalExercises) && quest.practicalExercises.length > 0) {
+    html += `
+      <div class="quest-section">
+        <h3 class="section-header">Practical Exercises</h3>
+        <div class="section-content">
+          ${quest.practicalExercises.map(exercise => `
+            <div class="exercise">
+              <h4 class="exercise-title">${exercise.title || 'Exercise'}</h4>
+              ${Array.isArray(exercise.steps) ? 
+                `<ol class="exercise-steps">
+                  ${exercise.steps.map(step => `<li>${step}</li>`).join('')}
+                </ol>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+    
+    // Tips for Success - Add null check
+  if (quest.tipsForSuccess && Array.isArray(quest.tipsForSuccess) && quest.tipsForSuccess.length > 0) {
+    html += `
+      <div class="quest-section">
+        <h3 class="section-header">Tips for Success</h3>
+        <div class="section-content">
+          <ul class="tips-list">
+            ${quest.tipsForSuccess.map(tip => `<li>${tip}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+    
+    // Completion Checklist - Add null check
+  if (quest.completionChecklist && Array.isArray(quest.completionChecklist) && quest.completionChecklist.length > 0) {
+    html += `
+      <div class="quest-section">
+        <h3 class="section-header">Completion Checklist</h3>
+        <div class="section-content">
+          <div class="checklist">
+            ${quest.completionChecklist.map(item => `
+              <div class="checklist-item">
+                <input type="checkbox" id="check-${item.replace(/\s+/g, '-')}" class="checklist-checkbox">
+                <label for="check-${item.replace(/\s+/g, '-')}">${item}</label>
+              </div>
+            `).join('')}
           </div>
         </div>
-      `;
-    }
+      </div>
+    `;
+  }
     
     html += '</div>';
     return html;
