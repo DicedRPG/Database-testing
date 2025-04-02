@@ -108,6 +108,12 @@ const QuestDetailView = {
     
     // Set the container HTML
     container.innerHTML = html;
+
+    // Hide the spinner
+    const spinner = document.querySelector('#quest-detail-container .loading-spinner');
+if (spinner) {
+  spinner.style.display = 'none';
+}
     
     // Show quest detail container, hide quest list
     document.getElementById('quest-list')?.classList.add('hidden');
