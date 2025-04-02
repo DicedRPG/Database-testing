@@ -121,10 +121,8 @@ if (spinner) {
     
     // Add event listeners
     document.getElementById('back-to-quest-list')?.addEventListener('click', () => {
-      StateService.updateState('ui.currentView', 'list');
-      document.getElementById('quest-list').classList.remove('hidden');
-      container.classList.add('hidden');
-    });
+  Router.navigate('home');
+});
     
     document.getElementById('start-quest-button')?.addEventListener('click', () => {
       if (quest.diceRequired && !this.hasRolledDice(quest.id)) {
