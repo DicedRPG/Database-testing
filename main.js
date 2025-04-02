@@ -73,4 +73,28 @@
       console.log('No old data found, migration not needed');
     }
   }
+  // start of new code
+  // Set up mobile menu toggle
+document.getElementById('menu-toggle')?.addEventListener('click', () => {
+  document.querySelector('.main-nav').classList.toggle('open');
+});
+
+// Close menu when clicking elsewhere
+document.addEventListener('click', (event) => {
+  const menuToggle = document.getElementById('menu-toggle');
+  const mainNav = document.querySelector('.main-nav');
+  
+  // If click is outside menu and toggle, close menu
+  if (menuToggle && mainNav && mainNav.classList.contains('open') && 
+      !menuToggle.contains(event.target) && !mainNav.contains(event.target)) {
+    mainNav.classList.remove('open');
+  }
+});
+
+// Close menu when a nav button is clicked
+document.querySelectorAll('.nav-button').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelector('.main-nav')?.classList.remove('open');
+  });
+  //end of new code
 })();
