@@ -112,6 +112,13 @@ const QuestDetailView = {
 if (spinner) {
   spinner.style.display = 'none';
 }
+
+    // Update breadcrumb with quest name
+    // Just delete this if failure occurs
+const questNameElement = document.getElementById('current-quest-name');
+if (questNameElement && quest) {
+  questNameElement.textContent = quest.questName;
+}
     
     // Show quest detail container, hide quest list
     document.getElementById('quest-list')?.classList.add('hidden');
