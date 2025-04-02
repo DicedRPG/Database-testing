@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T16:59:12.044Z
+// Generated on 2025-04-01T15:59:12.044Z
 // Total quests: 29
 const QUEST_TYPE_COLORS = {
   "Training": "#64D949",
@@ -1534,7 +1534,7 @@ const QUEST_DATA = [
     "diceRequired": true,
     "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
     "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
+    "stageName": "Basic Sides & Components",
     "milestone": true,
     "unlocksStage": 2,
     "unlockMessage": "Stage 2: Knife Skills is now available!",
