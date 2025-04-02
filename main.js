@@ -12,14 +12,17 @@
     
     // Step 3: Initialize views
     AttributeView.initialize();
+
+    // Step 4: Initialize settings view
+    SettingsView.initialize();
     
-    // Step 4: Initialize controllers
+    // Step 5: Initialize controllers
     QuestController.initialize();
     
-    // Step 5: Initialize router (last so everything else is ready)
+    // Step 6: Initialize router (last so everything else is ready)
     Router.initialize();
     
-    // Step 6: Set up mobile menu functionality
+    // Step 7: Set up mobile menu functionality
     setupMobileNavigation();
     
     console.log('Diced RPG Companion: Initialization complete');
