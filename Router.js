@@ -167,7 +167,7 @@ const Router = {
     this.showContainer('main-container');
     
     // Update quests display
-    QuestController.List();
+    QuestController.showQuestList();
   },
   
   // Show quest detail
