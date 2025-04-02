@@ -182,14 +182,17 @@ const Router = {
   },
   
   // Show settings page
-  showSettings() {
-    console.log('Showing settings page');
-    
-    // Show settings container
-    this.showContainer('settings-container');
-    
-    // TODO: Implement settings page
-  },
+ showSettings() {
+  console.log('Showing settings page');
+  
+  // Show settings container
+  this.showContainer('settings-container');
+  
+  // Render settings view if available
+  if (window.SettingsView) {
+    SettingsView.render();
+  }
+},
   
   // Helper to show loading indicators
   showLoadingIndicators() {
