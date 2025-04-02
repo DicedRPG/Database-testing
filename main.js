@@ -3,27 +3,32 @@
   console.log('Diced RPG Companion: Starting...');
   
   try {
-    // Step 1: Initialize core services
+    // Step 1: Initialize QuestDataService first (new)
+    if (window.QuestDataService) {
+      await QuestDataService.initialize();
+    }
+   
+    // Step 2: Initialize core services
     await StateService.initialize();
     await QuestService.initialize();
     
-    // Step 2: Migrate legacy data if needed
+    // Step 3: Migrate legacy data if needed
     await migrateOldData();
     
-    // Step 3: Initialize views
+    // Step 4: Initialize views
     AttributeView.initialize();
 
-    // Step 4: Initialize settings view
+    // Step 5: Initialize settings view
     SettingsView.initialize();
     
-    // Step 5: Initialize controllers
+    // Step 6: Initialize controllers
     QuestController.initialize();
-    
-    // Step 6: Initialize router (last so everything else is ready)
-    Router.initialize();
     
     // Step 7: Set up mobile menu functionality
     setupMobileNavigation();
+    
+    // Step 8: Initialize router (last so everything else is ready)
+    Router.initialize();
     
     console.log('Diced RPG Companion: Initialization complete');
   } catch (error) {
