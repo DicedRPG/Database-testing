@@ -40,6 +40,25 @@ const QuestController = {
       console.log(`Initial ${stage1QuestIds.length} Stage 1 quests are now visible`);
     }
   },
+
+  debugQuestList() {
+  // Check which Stage 1 quests exist in data
+  const stage1Quests = QUEST_DATA.filter(q => q.stageId === 1);
+  console.log("All Stage 1 quests in data:", stage1Quests.map(q => ({id: q.id, name: q.questName})));
+  
+  // Check which quests are currently visible
+  const state = StateService.getState();
+  const visibleQuestIds = state.quests.visible || [];
+  console.log("Visible quest IDs in state:", visibleQuestIds);
+  
+  // Check if quest 45 specifically exists and is visible
+  const quest45 = QUEST_DATA.find(q => q.id === 45);
+  console.log("Quest 45 exists in data:", quest45 ? "YES" : "NO");
+  console.log("Quest 45 is visible:", visibleQuestIds.includes(45) ? "YES" : "NO");
+  
+  // Check current filter
+  console.log("Current filter:", state.ui.currentFilter);
+},
   
   // Show the quest list
   async showQuestList() {
