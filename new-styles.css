@@ -805,3 +805,54 @@
   fill: white;
   margin-right: 5px;
 }
+
+/* Mobile Navigation */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 10px;
+}
+
+.menu-toggle svg {
+  fill: white;
+}
+
+@media (max-width: 768px) {
+  .header {
+    position: relative;
+  }
+  
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #333;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+  }
+  
+  .main-nav.open {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-nav .nav-button {
+    margin: 5px 0;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none;
+  }
+}
