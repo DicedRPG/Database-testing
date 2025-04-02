@@ -1534,7 +1534,7 @@ const QUEST_DATA = [
     "diceRequired": true,
     "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
     "stageId": 1,
-    "stageName": "Basic Sides & Components",
+    "stageName": "Kitchen Fundamentals",
     "milestone": true,
     "unlocksStage": 2,
     "unlockMessage": "Stage 2: Knife Skills is now available!",
