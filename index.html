@@ -168,8 +168,9 @@
     </div>
     
     <!-- Settings Container (Settings Page) -->
-    <div id="settings-container" class="page-container hidden">
-        <!-- Back button -->
+    <!-- Updated settings container -->
+<div id="settings-container" class="page-container hidden">
+    <!-- Back button -->
     <div class="back-nav">
         <button id="universal-back-button" class="nav-button">
             <svg viewBox="0 0 24 24" width="24" height="24">
@@ -178,9 +179,74 @@
             Back
         </button>
     </div>
-        <!-- Settings content will be dynamically loaded here -->
-        <div class="loading-spinner">Loading settings...</div>
+    
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <a href="#home">Home</a> > 
+        <span>Settings</span>
     </div>
+    
+    <!-- Settings content -->
+    <div id="settings-content" class="settings-container">
+        <div class="settings-header">
+            <h2>Settings</h2>
+        </div>
+        
+        <div class="settings-section">
+            <h3>Data Management</h3>
+            <div class="settings-options">
+                <div class="settings-option">
+                    <button id="export-data-button" class="settings-button">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path>
+                        </svg>
+                        Export Data
+                    </button>
+                    <p>Save your progress and quests to a file</p>
+                </div>
+                
+                <div class="settings-option">
+                    <button id="import-data-button" class="settings-button">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"></path>
+                        </svg>
+                        Import Data
+                    </button>
+                    <p>Load your progress from a backup file</p>
+                </div>
+                
+                <div class="settings-option danger-zone">
+                    <button id="reset-data-button" class="settings-button danger">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
+                        </svg>
+                        Reset All Data
+                    </button>
+                    <p>WARNING: This will delete all your progress</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3>About</h3>
+            <div class="settings-about">
+                <div id="version-info" class="settings-info-item">
+                    <h4>DICED: Cooking RPG Companion</h4>
+                    <p>Version 1.0.0</p>
+                </div>
+                
+                <div id="version-details" class="version-details hidden">
+                    <p>A companion app for tracking your cooking RPG progress.</p>
+                    <p>Track your cooking skills, complete quests, and level up your culinary expertise!</p>
+                    <p>Made with ❤️ by culinary enthusiasts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading spinner -->
+    <div class="loading-spinner">Loading settings...</div>
+</div>
     
     <!-- Notification Container -->
     <div id="notification-container" class="notification-container"></div>
