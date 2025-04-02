@@ -54,14 +54,15 @@ const QuestController = {
   
   // Show details for a specific quest
   async showQuestDetail(questId) {
-    console.log(`Showing quest detail: ${questId}`);
-    
-    // Update current view and quest ID in state
-    StateService.updateState('ui.currentView', 'detail');
-    StateService.updateState('quests.currentQuestId', questId);
-    
-    // Render quest detail
-    await QuestDetailView.render(questId);
+  console.log(`Showing quest detail: ${questId}`);
+  
+  // Always use the passed questId parameter, not whatever might be in state
+  // Update state to match the current view
+  StateService.updateState('ui.currentView', 'detail');
+  StateService.updateState('quests.currentQuestId', questId);
+  
+  // Always pass the questId parameter directly to ensure the correct quest is displayed
+  await QuestDetailView.render(questId);
   },
   
   // Select a random quest
