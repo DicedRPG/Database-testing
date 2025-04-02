@@ -1,4 +1,4 @@
-// Generated on 2025-04-01T15:59:12.044Z
+// Generated on 2025-04-02T10:59:12.044Z
 // Total quests: 29
 const QUEST_TYPE_COLORS = {
   "Training": "#64D949",
@@ -1534,7 +1534,7 @@ const QUEST_DATA = [
     "diceRequired": true,
     "description": "Master fundamental breakfast cooking techniques while managing multiple components that finish at the same time.",
     "stageId": 1,
-    "stageName": "Basic Sides & Components",
+    "stageName": "Kitchen Fundamentals",
     "milestone": true,
     "unlocksStage": 2,
     "unlockMessage": "Stage 2: Knife Skills is now available!",
@@ -1590,6 +1590,7 @@ const QUEST_DATA = [
     "practicalExercises": [
       {
         "title": "Dice Roll Mechanics",
+        // these are wrong
         "steps": [
           "Roll for Soup Base Style (d6): 1-Clear broth-based, 2-Creamy (dairy or non-dairy), 3-Tomato-based, 4-Bean or lentil foundation, 5-Pureed vegetable, 6-Stew-like (thick with chunky components)",
           "Roll for Primary Protein (d6): 1-Chicken, 2-Beef or pork, 3-Seafood (fish, shrimp), 4-Beans or legumes, 5-Tofu or plant-based protein, 6-Multiple protein combination",
@@ -1651,8 +1652,8 @@ const QUEST_DATA = [
     "secondaryHours": 1,
     "diceRequired": true,
     "description": "Build flavor profiles and textures while learning proper sandwich construction techniques.",
-    "stageId": 1,
-    "stageName": "Kitchen Fundamentals",
+    "stageId": 2,
+    "stageName": "Full Meal Preparation",
     "learningObjectives": [
       "Learn optimal ingredient layering and sandwich construction",
       "Develop knife skills for consistent cutting and preparation",
