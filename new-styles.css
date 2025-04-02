@@ -856,3 +856,138 @@
     display: none;
   }
 }
+
+/* Settings Styles */
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.settings-header {
+  margin-bottom: 20px;
+}
+
+.settings-header h2 {
+  color: #A2BC58;
+  border-bottom: 2px solid rgba(162, 188, 88, 0.3);
+  padding-bottom: 10px;
+}
+
+.settings-section {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.settings-section h3 {
+  margin-top: 0;
+  color: #A2BC58;
+  margin-bottom: 15px;
+}
+
+.settings-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+@media (min-width: 600px) {
+  .settings-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.settings-option {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-option p {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: #bbbbbb;
+}
+
+.settings-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  background-color: rgba(162, 188, 88, 0.2);
+  border: 1px solid rgba(162, 188, 88, 0.5);
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.settings-button:hover {
+  background-color: rgba(162, 188, 88, 0.3);
+}
+
+.settings-button svg {
+  fill: #A2BC58;
+  margin-right: 8px;
+}
+
+/* Danger zone */
+.danger-zone {
+  border: 1px solid rgba(255, 99, 71, 0.3);
+}
+
+.settings-button.danger {
+  background-color: rgba(255, 99, 71, 0.2);
+  border: 1px solid rgba(255, 99, 71, 0.5);
+}
+
+.settings-button.danger:hover {
+  background-color: rgba(255, 99, 71, 0.3);
+}
+
+.settings-button.danger svg {
+  fill: tomato;
+}
+
+/* About section */
+.settings-about {
+  padding: 10px;
+}
+
+.settings-info-item {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.settings-info-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.settings-info-item h4 {
+  margin: 0;
+  color: white;
+}
+
+.settings-info-item p {
+  margin: 5px 0 0;
+  color: #bbbbbb;
+  font-size: 14px;
+}
+
+.version-details {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.version-details p {
+  margin: 5px 0;
+  color: #bbbbbb;
+}
