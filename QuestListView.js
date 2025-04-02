@@ -65,21 +65,10 @@ const QuestListView = {
   
   // Handle quest item click
   handleQuestClick(questId) {
-    console.log(`Quest clicked: ${questId}`);
-    
-    // Navigate to quest detail
-    Router.navigate('quest', questId);
-    
-    // Update current quest ID in state
-    StateService.updateState('quests.currentQuestId', questId);
-    
-    // Change view to detail
-    StateService.updateState('ui.currentView', 'detail');
-    
-    // Show quest detail (we'll implement this later)
-    if (window.showQuestDetail) {
-      window.showQuestDetail(questId);
-    }
+  console.log(`Quest clicked: ${questId}`);
+  
+  // Just use Router for navigation - it will handle the state updates
+  Router.navigate('quest', questId);
   },
   
   // Update quest filters
