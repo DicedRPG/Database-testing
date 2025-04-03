@@ -84,41 +84,46 @@ const QuestController = {
   await QuestDetailView.render(questId);
   },
   
-  // Select a random quest
-  async selectRandomQuest() {
-    console.log('Selecting random quest...');
-
-    // Navigate to quest detail instead of directly showing it
-    Router.navigate('quest', quests[randomIndex].id);
-    
-    // Get state
-    const state = StateService.getState();
-    
-    // Get visible quests
-    const visibleQuestIds = state.quests.visible;
-    const completedQuestIds = state.quests.completed.map(c => c.questId);
-    const unlockedStages = await QuestService.getUnlockedStages(completedQuestIds);
-    
-    // Get filtered quests
-    const filter = state.ui.currentFilter || 'all';
-    const quests = await QuestService.getFilteredQuests(
-      filter, 
-      visibleQuestIds, 
-      completedQuestIds, 
-      unlockedStages
-    );
-    
-    if (quests.length === 0) {
+ // Select a random quest
+async selectRandomQuest() {
+  console.log('Selecting random quest...');
+  
+  // Get state
+  const state = StateService.getState();
+  
+  // Get visible quests
+  const visibleQuestIds = state.quests.visible;
+  const completedQuestIds = state.quests.completed.map(c => c.questId);
+  const unlockedStages = await QuestService.getUnlockedStages(completedQuestIds);
+  
+  // Get filtered quests
+  const filter = state.ui.currentFilter || 'all';
+  const quests = await QuestService.getFilteredQuests(
+    filter, 
+    visibleQuestIds, 
+    completedQuestIds, 
+    unlockedStages
+  );
+  
+  if (quests.length === 0) {
+    // Use NotificationService if available, otherwise fallback to alert
+    if (window.NotificationService) {
+      NotificationService.warning('No quests available with current filter');
+    } else {
       alert('No quests available with current filter');
-      return;
     }
-    
-    // Select random quest
-    const randomIndex = Math.floor(Math.random() * quests.length);
-    
-    // Show quest detail
-    this.showQuestDetail(quests[randomIndex].id);
-  },
+    return;
+  }
+  
+  // Select random quest
+  const randomIndex = Math.floor(Math.random() * quests.length);
+  const selectedQuest = quests[randomIndex];
+  
+  console.log(`Selected random quest: ${selectedQuest.id} - ${selectedQuest.questName}`);
+  
+  // Navigate to quest detail using Router
+  Router.navigate('quest', selectedQuest.id);
+},
   
   // Complete a quest
   async completeQuest(questId, completionDetails = {}) {
