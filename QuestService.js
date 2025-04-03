@@ -23,22 +23,23 @@ const QuestService = {
     return this._quests;
   },
   
-  /**
-   * Handle quest data update events from QuestDataService
-   */
+   // Handle quest data update events from QuestDataService
+
   _handleQuestDataUpdate(event) {
     console.log(`Quest data updated from v${event.detail.previousVersion} to v${event.detail.version}`);
     
     // Reload quests from localStorage
     this.loadFromStorage();
+
+    // Force update all registered listeners
+    this._notifyDataChanged();
     
     // Refresh the UI
     this._refreshUI();
   },
   
-  /**
-   * UI refresh method - update necessary components
-   */
+  // UI refresh method - update necessary components
+   
   _refreshUI() {
     // Update quest list if available
     if (window.QuestListView && typeof window.QuestListView.updateQuestList === 'function') {
