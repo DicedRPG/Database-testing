@@ -42,7 +42,7 @@ const QuestDataService = {
     console.log(`Current quest data version: ${this.currentVersion}`);
     
     // Check for updates immediately on startup
-    const updated = await this.checkAndUpdateQuestData();
+    const updated = await this.checkAndUpdateQuestData(true);
     
     // Set up periodic checks
     setInterval(() => this.checkAndUpdateQuestData(), this.CHECK_INTERVAL);
