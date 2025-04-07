@@ -29,20 +29,22 @@ const QuestListView = {
     // Generate HTML for each quest
     quests.forEach(quest => {
       const hasCompleted = completedQuestIds.includes(quest.id);
-      const typeColor = QUEST_TYPE_COLORS[quest.type] || '#888888';
+      const typeColor = ConfigService.getQuestTypeColor(quest.type) || '#888888';
       
       html += `
         <div class="quest-item ${hasCompleted ? 'completed' : ''}" data-quest-id="${quest.id}">
           <div class="quest-type-banner" style="background-color: ${typeColor};"></div>
           <div class="quest-content">
             <h4>${quest.questName}</h4>
+            <div class="quest-badges">
+              ${quest.milestone ? `<div class="milestone-badge-small" title="Milestone Quest">🏆 Milestone</div>` : ''}
+              ${quest.diceRequired ? `<div class="dice-badge-small" title="Dice Required">🎲 Dice Required</div>` : ''}
+            </div>
             <p>${quest.description}</p>
             <div class="quest-details">
               <span>${quest.primaryFocus}: ${quest.primaryHours}h</span>
               <span>${quest.secondaryFocus}: ${quest.secondaryHours}h</span>
-              ${quest.diceRequired ? '<span class="dice-required">🎲</span>' : ''}
               ${hasCompleted ? `<span class="completion-badge">✓ ${state.quests.completed.filter(c => c.questId === quest.id).length}</span>` : ''}
-              ${quest.milestone ? '<span class="milestone-badge">🏆 Milestone</span>' : ''}
             </div>
           </div>
         </div>
@@ -65,10 +67,10 @@ const QuestListView = {
   
   // Handle quest item click
   handleQuestClick(questId) {
-  console.log(`Quest clicked: ${questId}`);
-  
-  // Just use Router for navigation - it will handle the state updates
-  Router.navigate('quest', questId);
+    console.log(`Quest clicked: ${questId}`);
+    
+    // Just use Router for navigation - it will handle the state updates
+    Router.navigate('quest', questId);
   },
   
   // Update quest filters

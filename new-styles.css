@@ -1,6 +1,53 @@
 /* new-styles.css */
 /* Additional styles for the enhanced multi-page application */
 
+/* Quest badge container */
+.quest-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -5px 0 8px 0;
+}
+
+/* Base styles for all badges */
+.milestone-badge-small,
+.dice-badge-small {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+
+/* Milestone badge specific styles */
+.milestone-badge-small {
+  color: #4A2A1B;
+  background-color: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
+/* Dice badge specific styles */
+.dice-badge-small {
+  color: #7D3C98;
+  background-color: rgba(142, 68, 173, 0.1);
+  border: 1px solid rgba(142, 68, 173, 0.3);
+}
+
+/* Adjust quest item layout */
+.quest-content h4 {
+  margin-bottom: 4px;
+}
+
+.quest-content p {
+  margin-top: 8px;
+}
+
+/* Remove the old dice required styling since we've moved it */
+.dice-required {
+  display: none;
+}
+
 /* Fix for mobile menu toggle button visibility */
 .menu-toggle {
   display: none; /* Hidden by default on desktop */
@@ -834,7 +881,7 @@
 .breadcrumbs {
   margin: 10px 0;
   padding: 8px 15px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 50);
   border-radius: 4px;
   font-size: 14px;
 }
@@ -857,20 +904,21 @@
   display: flex;
   align-items: center;
   padding: 5px 10px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 50);
   border: none;
   border-radius: 4px;
   color: white;
   cursor: pointer;
+  font-color: black;
   transition: background-color 0.2s;
 }
 
 .back-nav button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 75);
 }
 
 .back-nav svg {
-  fill: white;
+  fill: black;
   margin-right: 5px;
 }
 
@@ -1082,12 +1130,12 @@
 
 /* Make breadcrumbs more visible */
 .breadcrumbs {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 50);
   padding: 10px 15px;
 }
 
 /* Fix back button styles */
 .back-nav button {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 50);
   padding: 8px 12px;
 }

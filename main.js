@@ -1,9 +1,15 @@
-// main.js - Main application entry point
+// main.js - Main application entry point with PWA functionality
 (async function() {
   console.log('Diced RPG Companion: Starting...');
   
+  // Register service worker for PWA functionality
+  await registerServiceWorker();
+  
+  // Set up PWA installation handling
+  setupPWAInstallation();
+  
   try {
-    // Step 1: Initialize QuestDataService first (new)
+    // Step 1: Initialize QuestDataService first
     if (window.QuestDataService) {
       await QuestDataService.initialize();
     }
@@ -37,6 +43,141 @@
       NotificationService.error('Application failed to initialize properly. Please refresh the page.');
     } else {
       alert('Application failed to initialize properly. Please refresh the page.');
+    }
+  }
+  
+  // Register service worker
+  async function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register('/service-worker.js');
+        console.log('Service Worker registered with scope:', registration.scope);
+      } catch (error) {
+        console.error('Service Worker registration failed:', error);
+      }
+    } else {
+      console.log('Service Workers not supported in this browser');
+    }
+  }
+  
+  // PWA installation prompt handler
+  function setupPWAInstallation() {
+    // Variable to store the deferred prompt
+    let deferredPrompt;
+    
+    // Add a variable to track if install banner has been shown
+    window.installPromptShown = false;
+    
+    // Listen for the beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later
+      deferredPrompt = e;
+      
+      // Only show the install button if we haven't shown it already
+      if (!window.installPromptShown) {
+        createInstallButton();
+        window.installPromptShown = true;
+      }
+    });
+    
+    // Listen for the appinstalled event
+    window.addEventListener('appinstalled', (evt) => {
+      // Log install to analytics
+      console.log('INSTALL: Diced RPG Companion was installed');
+      
+      // Use notification if available
+      if (window.NotificationService) {
+        NotificationService.success('Diced RPG Companion was successfully installed!');
+      }
+      
+      // Hide the install button
+      const pwaSection = document.querySelector('.settings-section.pwa-section');
+      if (pwaSection) {
+        pwaSection.style.display = 'none';
+      }
+    });
+    
+    // Function to create and display an install button
+    function createInstallButton() {
+      // Check if we're on the settings page initially
+      const settingsContent = document.getElementById('settings-content');
+      if (settingsContent) {
+        addInstallButtonToSettings(settingsContent, deferredPrompt);
+      } else {
+        // If not on settings page, wait for it to be shown
+        // Use MutationObserver to detect when settings page is displayed
+        const observer = new MutationObserver((mutations) => {
+          for (const mutation of mutations) {
+            if (mutation.type === 'childList') {
+              const settingsContent = document.getElementById('settings-content');
+              if (settingsContent && !settingsContent.classList.contains('hidden')) {
+                addInstallButtonToSettings(settingsContent, deferredPrompt);
+                observer.disconnect();
+                break;
+              }
+            }
+          }
+        });
+        
+        // Start observing the document with the configured parameters
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    }
+    
+    // Add install button to settings page
+    function addInstallButtonToSettings(settingsContent, deferredPrompt) {
+      // Check if the button already exists
+      if (document.getElementById('pwa-install-button')) return;
+      
+      // Find or create a section for PWA settings
+      let pwaSection = document.querySelector('.settings-section.pwa-section');
+      if (!pwaSection) {
+        pwaSection = document.createElement('div');
+        pwaSection.className = 'settings-section pwa-section';
+        pwaSection.innerHTML = `
+          <h3>App Installation</h3>
+          <div class="settings-options">
+            <div class="settings-option">
+              <button id="pwa-install-button" class="settings-button">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                  <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path>
+                </svg>
+                Install App
+              </button>
+              <p>Install Diced RPG Companion as an app on your device</p>
+            </div>
+          </div>
+        `;
+        settingsContent.appendChild(pwaSection);
+      }
+      
+      // Add event listener to install button
+      document.getElementById('pwa-install-button')?.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          // Show the install prompt
+          deferredPrompt.prompt();
+          
+          // Wait for the user to respond to the prompt
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`User ${outcome} the installation`);
+          
+          // We've used the prompt, and can't use it again, throw it away
+          deferredPrompt = null;
+          
+          // Hide the install button
+          pwaSection.style.display = 'none';
+        } else {
+          // If the app is already installed or not installable
+          // Use notification if available
+          if (window.NotificationService) {
+            NotificationService.info('The app is already installed or cannot be installed on this device');
+          } else {
+            alert('The app is already installed or cannot be installed on this device');
+          }
+        }
+      });
     }
   }
   

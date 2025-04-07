@@ -60,54 +60,76 @@ const Router = {
     
     console.log(`Route changed: ${route}, params: ${params.join(', ')}`);
     
-    // Check route permission
-    // Confirm this later
-    if (!this.checkRoutePermission(route, params)) {
-      return;
-    }
-    
-    // Find handler for this route
-    const handler = this.routes[route];
-    
-    if (handler) {
-      this.currentRoute = route;
+    // Check route permission - now using async pattern
+    this.checkRoutePermission(route, params).then(isPermitted => {
+      if (!isPermitted) {
+        return; // Permission check will handle navigation if not permitted
+      }
       
-      // Update active navigation buttons
-      this.updateActiveNavButtons(route);
+      // Find handler for this route
+      const handler = this.routes[route];
       
-      // Show loading indicators
-      this.showLoadingIndicators();
-      
-      // Call the handler with parameters
-      handler(...params);
-      
-      // Add to history
-      this.addToHistory(route, params);
-    } else {
-      console.warn(`No handler for route: ${route}`);
-      // Default to home
-      this.navigate('home');
-    }
+      if (handler) {
+        this.currentRoute = route;
+        
+        // Update active navigation buttons
+        this.updateActiveNavButtons(route);
+        
+        // Show loading indicators
+        this.showLoadingIndicators();
+        
+        // Call the handler with parameters
+        handler(...params);
+        
+        // Add to history
+        this.addToHistory(route, params);
+      } else {
+        console.warn(`No handler for route: ${route}`);
+        // Default to home
+        this.navigate('home');
+      }
+    });
   },
   
-  // Check if route is allowed
-  checkRoutePermission(route, params) {
+  // Check if route is allowed - now properly async
+  async checkRoutePermission(route, params) {
     // Check if quest exists before navigating to quest detail
     if (route === 'quest' && params.length > 0) {
       const questId = parseInt(params[0]);
+      console.log(`Router permission check for quest ID: ${questId} (${typeof questId})`);
       
-      // For immediate feedback, check if quest exists in QUEST_DATA
-      // In a full implementation, this would use QuestService.getQuestById
-      const quest = QUEST_DATA.find(q => q.id === questId);
-      if (!quest) {
-        // Quest not found, redirect to home
-        this.navigate('home');
-        // Use notification service if available
-        if (window.NotificationService) {
-          NotificationService.error(`Quest #${questId} not found.`);
-        } else {
-          alert(`Quest #${questId} not found.`);
+      try {
+        // Use QuestService directly instead of QUEST_DATA global
+        const quest = await QuestService.getQuestById(questId);
+        
+        if (!quest) {
+          console.error(`Quest #${questId} not found in QuestService`);
+          
+          // Quest not found, redirect to home
+          this.navigate('home');
+          
+          // Use notification service if available
+          if (window.NotificationService) {
+            NotificationService.error(`Quest #${questId} not found.`);
+          } else {
+            alert(`Quest #${questId} not found.`);
+          }
+          
+          return false;
         }
+        
+        console.log(`Quest #${questId} found: ${quest.questName}`);
+        return true;
+      } catch (error) {
+        console.error(`Error checking quest #${questId}:`, error);
+        
+        // Error occurred, redirect to home
+        this.navigate('home');
+        
+        if (window.NotificationService) {
+          NotificationService.error(`Error loading quest #${questId}.`);
+        }
+        
         return false;
       }
     }
@@ -118,11 +140,6 @@ const Router = {
   // Navigate to a route
   navigate(route, ...params) {
     console.log(`Navigating to: ${route}, params: ${params.join(', ')}`);
-    
-    // Check route permission first
-    if (!this.checkRoutePermission(route, params)) {
-      return;
-    }
     
     // Build URL hash
     let hash = route;
@@ -181,24 +198,24 @@ const Router = {
     QuestController.showQuestDetail(id);
 
     // Add this: Scroll to the top of the page
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth' // Use 'auto' for instant scrolling instead of smooth animation
-  });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Use 'auto' for instant scrolling instead of smooth animation
+    });
   },
   
   // Show settings page
- showSettings() {
-  console.log('Showing settings page');
-  
-  // Show settings container
-  this.showContainer('settings-container');
-  
-  // Render settings view if available
-  if (window.SettingsView) {
-    SettingsView.render();
-  }
-},
+  showSettings() {
+    console.log('Showing settings page');
+    
+    // Show settings container
+    this.showContainer('settings-container');
+    
+    // Render settings view if available
+    if (window.SettingsView) {
+      SettingsView.render();
+    }
+  },
   
   // Helper to show loading indicators
   showLoadingIndicators() {
